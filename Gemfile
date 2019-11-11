@@ -44,6 +44,10 @@ gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
 
+# DfE Sign-In
+gem 'omniauth', '~> 1.8'
+gem 'omniauth_openid_connect', '~> 0.3'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

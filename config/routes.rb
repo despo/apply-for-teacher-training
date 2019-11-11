@@ -152,10 +152,14 @@ Rails.application.routes.draw do
 
   namespace :provider_interface, path: '/provider' do
     get '/' => redirect('/provider/applications')
+    get '/sign-out' => 'sessions#sign_out', as: :sign_out
+    get '/sign-in' => 'sessions#new', as: :sign_in
 
     get '/applications' => 'application_choices#index'
     get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
   end
+
+  get '/auth/dfe/callback' => 'provider_interface/sessions#callback'
 
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')

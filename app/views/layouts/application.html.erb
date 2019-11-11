@@ -70,6 +70,10 @@
               </li>
             </ul>
           <% end %>
+
+          <% if current_namespace == 'provider_interface' %>
+            <%= render 'layouts/provider_interface_header' %>
+          <% end %>
         </div>
       </div>
     </header>
