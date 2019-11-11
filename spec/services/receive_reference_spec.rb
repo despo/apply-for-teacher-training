@@ -26,6 +26,8 @@ RSpec.describe ReceiveReference do
     create(:reference, :unsubmitted, email_address: 'ab@c.com', application_form: application_form)
     create(:reference, :complete, application_form: application_form)
 
+    puts application_form.references.each(&:complete?)
+
     action = ReceiveReference.new(
       application_form: application_form,
       referee_email: 'ab@c.com',
