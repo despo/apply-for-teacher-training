@@ -1,7 +1,9 @@
+# https://github.com/DFE-Digital/manage-courses-frontend/blob/master/config/initializers/omniauth.rb
+
 ISSUER = 'https://signin-test-oidc-as.azurewebsites.net'.freeze
 IDENTIFIER = ENV['DFE_SIGNIN_IDENTIFIER']
 SECRET = ENV['DFE_SIGNIN_SECRET']
-BASE_URL = 'https://localhost:3000'.freeze
+BASE_URL = 'https://localhost:3000'.freeze # HostingProvider.x
 
 module OmniAuth
   module Strategies
