@@ -5,14 +5,6 @@ module ProviderInterface
       @application_form = application_choice.application_form
     end
 
-    def id
-      application_choice.id
-    end
-
-    def status
-      application_choice.status
-    end
-
     def status_tag_text
       application_choice.status.humanize.titleize
     end
@@ -29,7 +21,7 @@ module ProviderInterface
     end
 
     def full_name
-      "#{application_choice.application_form.first_name} #{application_choice.application_form.last_name}"
+      "#{first_name} #{last_name}"
     end
 
     def course_name_and_code
@@ -45,7 +37,7 @@ module ProviderInterface
     end
 
     def status_name
-      I18n.t!("application_choice.status_name.#{application_choice.status}")
+      I18n.t!("application_choice.status_name.#{status}")
     end
 
     def updated_at
@@ -56,19 +48,11 @@ module ProviderInterface
       application_choice.to_param
     end
 
-    def date_of_birth
-      application_form.date_of_birth
-    end
-
-    def phone_number
-      application_form.phone_number
-    end
-
-    def email_address
-      application_form.candidate.email_address
-    end
-
   private
+
+    delegate :email_address, to: :candidate
+    delegate :candidate, :phone_number, :date_of_birth, :first_name, :last_name, to: :application_form
+    delegate :id, :status, to: :application_choice
 
     attr_reader :application_choice, :application_form
   end
