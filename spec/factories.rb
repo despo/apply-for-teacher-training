@@ -20,6 +20,7 @@ FactoryBot.define do
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
+      support_reference { GenerateSupportRef.call }
       phone_number { Faker::PhoneNumber.cell_phone }
       address_line1 { Faker::Address.street_address }
       address_line2 { Faker::Address.city }
