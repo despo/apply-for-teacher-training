@@ -45,7 +45,7 @@ FactoryBot.define do
         references_state { :unsubmitted }
       end
 
-      trait :with_references_submitted do
+      trait :with_completed_references do
         transient do
           references_state { :complete }
         end
@@ -135,6 +135,11 @@ FactoryBot.define do
 
     trait :single do
       association :application_form, factory: :completed_application_form, application_choices_count: 0
+    end
+
+    trait :awaiting_provider_decision do
+      association :application_form, factory: [:completed_application_form, :with_completed_references]
+      status { :awaiting_provider_decision }
     end
   end
 
