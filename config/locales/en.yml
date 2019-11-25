@@ -83,6 +83,13 @@ en:
         user_id: user_id
         email: email
         full_name: full_name
+    errors:
+      models:
+        reject_application:
+          attributes:
+            rejection_reason:
+              blank: Explain why this application was rejected
+              too_long: Explanation must be %{count} characters or fewer
   activerecord:
     errors:
       models:
