@@ -25,7 +25,7 @@ WORKDIR $APP_HOME
 
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
-RUN bundle install -j4 && \
+RUN bundle install -j8 && \
     yarn install --production --frozen-lockfile
 
 
