@@ -26,7 +26,7 @@ WORKDIR $APP_HOME
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
 RUN bundle install -j4 && \
-    yarn install
+    yarn install --production
 
 
 #### Dev build builds on common build env image ####
