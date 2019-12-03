@@ -22,10 +22,10 @@ RUN apk update && \
     gem install bundler -v $BUNDLER_VERSION
 
 WORKDIR $APP_HOME
-    
+
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
-RUN bundle install && \
+RUN bundle install -j4 && \
     yarn install
 
 
