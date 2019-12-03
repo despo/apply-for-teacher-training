@@ -85,7 +85,7 @@ WORKDIR $APP_HOME
 RUN apk update && \
     apk upgrade && \
     apk add --update --no-cache $PACKAGES && \
-    gem update --system && \
+    gem update --system -​-no-post-install-message && \
     find / -wholename '*default/bundler-*.gemspec' -delete && \
     rm /usr/local/bin/bundle && \
     rm /usr/local/bin/bundler && \
