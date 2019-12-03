@@ -6,7 +6,7 @@ ARG APP_HOME=/app
 ARG BUILD_PACKAGES="build-base"
 ARG DEV_PACKAGES="postgresql-dev git nodejs yarn"
 ARG RUBY_PACKAGES="tzdata"
-ARG bundleWithout=""
+ARG bundleWithout="development"
 
 ENV BUNDLER_VERSION="2.0.2"
 ENV BUNDLE_PATH="/gems"
