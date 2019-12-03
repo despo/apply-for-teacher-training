@@ -15,7 +15,7 @@ ENV BUNDLE_WITHOUT=${bundleWithout}
 RUN apk update && \
     apk upgrade && \
     apk add --update --no-cache $BUILD_PACKAGES $DEV_PACKAGES $RUBY_PACKAGES && \
-    gem update --system -​-no-post-install-message && \
+    gem update --system --no-document --silent && \
     find / -wholename '*default/bundler-*.gemspec' -delete && \
     rm /usr/local/bin/bundle && \
     rm /usr/local/bin/bundler && \
@@ -85,7 +85,7 @@ WORKDIR $APP_HOME
 RUN apk update && \
     apk upgrade && \
     apk add --update --no-cache $PACKAGES && \
-    gem update --system -​-no-post-install-message && \
+    gem update --system --no-document --silent && \
     find / -wholename '*default/bundler-*.gemspec' -delete && \
     rm /usr/local/bin/bundle && \
     rm /usr/local/bin/bundler && \
