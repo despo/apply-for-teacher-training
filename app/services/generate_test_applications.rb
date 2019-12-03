@@ -84,7 +84,13 @@ private
         RejectApplication.new(application_choice: third, rejection_reason: 'Some').save
       end
 
-      # TODO: accept/decline/withdraw
+      return if application_index > 30
+
+      if [true, false].sample
+        AcceptOffer.new(application_choice: application_form.application_choices[0]).save!
+      else
+        DeclineOffer.new(application_choice: application_form.application_choices[0]).save!
+      end
     end
   end
 end
