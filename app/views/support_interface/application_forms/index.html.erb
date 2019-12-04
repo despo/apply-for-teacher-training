@@ -2,4 +2,10 @@
 
 <%= govuk_button_link_to 'Import references', support_interface_import_references_path %>
 
+<% if HostingEnvironment.environment_name.in?(%w[qa development]) %>
+  <%= form_tag support_interface_create_test_applications_path, method: :post do %>
+    <%= submit_tag 'Add new test applications', class: 'govuk-button' %>
+  <% end %>
+<% end %>
+
 <%= render SupportInterface::ApplicationsTableComponent, application_forms: @application_forms %>

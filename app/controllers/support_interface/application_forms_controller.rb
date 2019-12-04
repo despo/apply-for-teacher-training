@@ -15,5 +15,11 @@ module SupportInterface
         .includes(:application_choices)
         .find(params[:application_form_id])
     end
+
+    def create_test_applications
+      flash[:success] = "Scheduled a job to create new applications!"
+      AddTestApplicationsWorker.perform_async
+      redirect_to action: 'index'
+    end
   end
 end
