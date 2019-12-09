@@ -63,6 +63,8 @@ gem 'http'
 gem 'openapi3_parser', '0.7.0'
 gem 'rouge'
 
+gem 'appsignal'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

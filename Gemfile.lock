@@ -60,6 +60,8 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.0.1)
+    appsignal (2.10.0)
+      rack
     ast (2.4.0)
     attr_required (1.0.1)
     audited (4.9.0)
@@ -519,6 +521,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionview-component
+  appsignal
   audited
   brakeman
   bullet

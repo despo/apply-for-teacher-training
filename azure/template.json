@@ -261,6 +261,12 @@
                 "description": "The base URL to manage-courses-backend, Find's backend."
             }
         },
+        "appsignalKey": {
+            "type": "string",
+            "metadata": {
+                "description": "The Appsignal API key"
+            }
+        },
         "redisCacheName": {
             "type": "string",
             "metadata": {
@@ -571,6 +577,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "APPSIGNAL_PUSH_API_KEY",
+                                "value": "[parameters('appsignalKey')]"
+                            },
+                            {
                                 "name": "STATE_CHANGE_SLACK_URL",
                                 "value": "[parameters('stateChangeSlackUrl')]"
                             },
@@ -713,6 +723,10 @@
                                 "value": "[parameters('findBaseUrl')]"
                             },
                             {
+                                "name": "APPSIGNAL_PUSH_API_KEY",
+                                "value": "[parameters('appsignalKey')]"
+                            },
+                            {
                                 "name": "STATE_CHANGE_SLACK_URL",
                                 "value": "[parameters('stateChangeSlackUrl')]"
                             },
@@ -851,6 +865,10 @@
                             {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
+                            },
+                            {
+                                "name": "APPSIGNAL_PUSH_API_KEY",
+                                "value": "[parameters('appsignalKey')]"
                             },
                             {
                                 "name": "STATE_CHANGE_SLACK_URL",
