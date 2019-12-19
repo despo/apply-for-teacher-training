@@ -30,11 +30,41 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+# Allow us to test Javascript for example errors thrown by examples
+WebMock.disable_net_connect!(allow_localhost: true)
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new app, browser: :chrome,
+    options: Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu])
+end
+
+Capybara.current_driver = Capybara.javascript_driver = :chrome
+
+class JavaScriptError< StandardError; end
+
 Timecop.safe_mode = true
 
 Faker::Config.locale = 'en-GB'
 
 RSpec.configure do |config|
+  config.after(:each, type: :feature) do |spec|
+    puts 'after'
+    errors = page.driver.browser.manage.logs.get(:browser)
+    if errors.present?
+      puts errors.first.as_json
+      puts errors.first.methods
+      message = errors.map(&:message).join("\n")
+      puts message
+    end
+
+    # errors = page.driver.browser.manage.logs.get(:browser)
+    #            .select {|e| e.level == "SEVERE" && e.message.present? }
+    #            .map(&:message)
+    #            .to_a
+    # if errors.present?
+    #   raise JavaScriptError, errors.join("\n\n")
+    # end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

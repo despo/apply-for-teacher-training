@@ -114,5 +114,6 @@
     </footer>
 
     <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'accessibility-test' unless Rails.env.production? %>
   </body>
 </html>
