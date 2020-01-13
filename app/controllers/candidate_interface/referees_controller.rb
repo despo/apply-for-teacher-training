@@ -12,24 +12,27 @@ module CandidateInterface
     end
 
     def new
-      @referee = current_candidate.current_application.application_references.build
+      @referee_form = ReferenceForm.new
     end
 
     def create
-      @referee = current_candidate.current_application
-                                  .application_references
-                                  .build(referee_params)
-      if @referee.save
+      @referee_form = ReferenceForm.new(referee_params.merge(application_form: current_candidate.current_application))
+
+      if @referee_form.save
         redirect_to candidate_interface_review_referees_path
       else
         render :new
       end
     end
 
-    def edit; end
+    def edit
+      @referee_form = ReferenceForm.load_from_reference(@referee)
+    end
 
     def update
-      if @referee.update(referee_params)
+      @referee_form = ReferenceForm.new(referee_params.merge(application_reference: @referee))
+
+      if @referee_form.save
         redirect_to candidate_interface_review_referees_path
       else
         render :edit
@@ -63,7 +66,7 @@ module CandidateInterface
     end
 
     def referee_params
-      params.require(:application_reference).permit(
+      params.require(:candidate_interface_reference_form).permit(
         :name,
         :email_address,
         :relationship,

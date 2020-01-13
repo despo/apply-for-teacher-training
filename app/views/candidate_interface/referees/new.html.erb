@@ -1,15 +1,12 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.add_referee'), @referee.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.add_referee'), @referee_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @referee, url: candidate_interface_referees_path do |f| %>
+    <%= form_with model: @referee_form, url: candidate_interface_referees_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl">
-          <%= t('page_titles.nth_referee')[@referee.ordinal] %>
-        </span>
         <%= t('page_titles.add_referee') %>
       </h1>
 
