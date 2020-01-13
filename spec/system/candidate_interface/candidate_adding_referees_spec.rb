@@ -26,6 +26,11 @@ RSpec.feature 'Candidate adding referees' do
     i_see_both_referees
     then_when_i_click_continue
     i_see_referees_is_complete
+
+    when_i_click_on_referees
+    and_i_click_on_amend_a_reference
+    and_i_change_some_of_the_fields
+    then_the_details_are_updated
   end
 
   def given_i_am_signed_in
@@ -105,5 +110,18 @@ RSpec.feature 'Candidate adding referees' do
     expect(page).to have_content(full_name_without_trailing_space)
     expect(page).to have_content('lumbergh@example.com')
     expect(page).to have_content('manager for several years')
+  end
+
+  def and_i_click_on_amend_a_reference
+    click_link 'Change name for AJP Taylor'
+  end
+
+  def and_i_change_some_of_the_fields
+    fill_in('Email address', with: 'ajptaylor12@example.com')
+    click_button 'Save and continue'
+  end
+
+  def then_the_details_are_updated
+    expect(page).to have_content 'ajptaylor12@example.com'
   end
 end
