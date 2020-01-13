@@ -131,17 +131,7 @@ en:
           attributes:
             rejection_reason:
               blank: Enter feedback for the candidate
-  activerecord:
-    errors:
-      models:
-        candidate:
-          attributes:
-            email_address:
-              blank: Enter your email address
-              taken: Email address is already in use
-              too_long: Email address must be %{count} characters or fewer
-              invalid: Enter an email address in the correct format, like name@example.com
-        application_reference:
+        candidate_interface/reference_form:
           attributes:
             email_address:
               blank: Enter the referee’s email address
@@ -155,6 +145,16 @@ en:
             relationship:
               blank: Tell us about the referee’s relationship to you and how long they’ve known you
               too_many_words: Relationship to referee must be %{count} words or fewer
+  activerecord:
+    errors:
+      models:
+        candidate:
+          attributes:
+            email_address:
+              blank: Enter your email address
+              taken: Email address is already in use
+              too_long: Email address must be %{count} characters or fewer
+              invalid: Enter an email address in the correct format, like name@example.com
         support_user:
           attributes:
             email_address:

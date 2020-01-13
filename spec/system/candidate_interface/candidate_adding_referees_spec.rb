@@ -75,7 +75,7 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def i_see_a_validation_error_on_relationship
-    expect(page).to have_content t('activerecord.errors.models.application_reference.attributes.relationship.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/reference_form.attributes.relationship.blank')
   end
 
   def when_i_enter_a_relationship
