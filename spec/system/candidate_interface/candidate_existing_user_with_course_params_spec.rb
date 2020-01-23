@@ -9,7 +9,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
 
-    when_i_arrive_at_the_sign_up_page_with_course_params
+    when_i_arrive_at_the_sign_up_page_with_course_params(@course)
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_courses_review_page
@@ -17,14 +17,16 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_see_the_site(@site)
     and_my_find_from_id_course_should_be_set_to_nil
 
-    # given_the_course_i_selected_has_multiple_sites
+    given_the_course_i_selected_has_multiple_sites
+    and_i_have_less_than_3_application_options
 
-    # when_i_submit_my_email_address
-    # and_click_on_the_magic_link
-    # then_i_should_see_the_course_choices_site_page
-    # and_i_should_see_the_site(@site1)
-    # and_i_should_see_the_site(@site2)
-    # and_my_find_from_id_course_should_be_set_to_nil
+    when_i_arrive_at_the_sign_up_page_with_course_params(@course_with_multiple_sites)
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
+    then_i_should_see_the_course_choices_site_page
+    and_i_should_see_the_site(@site1)
+    and_i_should_see_the_site(@site2)
+    and_my_find_from_id_course_should_be_set_to_nil
   end
 
   def and_confirm_course_choice_from_find_is_activated
@@ -56,8 +58,8 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     create(:application_choice, application_form: application_form, course_option_id: second_course_option)
   end
 
-  def when_i_arrive_at_the_sign_up_page_with_course_params
-    visit candidate_interface_sign_up_path providerCode: @course.provider.code, courseCode: @course.code
+  def when_i_arrive_at_the_sign_up_page_with_course_params(course)
+    visit candidate_interface_sign_up_path providerCode: course.provider.code, courseCode: course.code
   end
 
   def and_i_submit_my_email_address
@@ -95,19 +97,15 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     expect(candidate.course_from_find_id).to eq(nil)
   end
 
+  def given_the_course_i_selected_has_multiple_sites
+    @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
+    @site1 = create(:site, provider: @course_with_multiple_sites.provider)
+    @site2 = create(:site, provider: @course_with_multiple_sites.provider)
+    create(:course_option, site: @site1, course: @course_with_multiple_sites, vacancy_status: 'B')
+    create(:course_option, site: @site2, course: @course_with_multiple_sites, vacancy_status: 'B')
+  end
 
-    # def given_the_course_i_selected_has_multiple_sites
-    #   @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
-    #   @site1 = create(:site, provider: @course_with_multiple_sites.provider)
-    #   @site2 = create(:site, provider: @course_with_multiple_sites.provider)
-    #   create(:course_option, site: @site1, course: @course_with_multiple_sites, vacancy_status: 'B')
-    #   create(:course_option, site: @site2, course: @course_with_multiple_sites, vacancy_status: 'B')
-    #
-    #   visit candidate_interface_sign_up_path providerCode: @course_with_multiple_sites.provider.code, courseCode: @course_with_multiple_sites.code
-    # end
-
-
-  # def then_i_should_see_the_course_choices_site_page
-  #   expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
-  # end
+  def then_i_should_see_the_course_choices_site_page
+    expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
+  end
 end
