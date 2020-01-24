@@ -24,6 +24,10 @@ class Candidate < ApplicationRecord
     application_forms.max_by(&:updated_at)
   end
 
+  def first_login?
+    created_at.to_i == updated_at.to_i
+  end
+
 private
 
   def downcase_email
