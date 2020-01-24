@@ -6,7 +6,10 @@ class ExistingCandidateAuthentication
   end
 
   def execute
-    if has_course_from_find? && course_has_one_site?
+    if candidate_already_has_3_courses
+      set_course_from_find_id_to_nil
+      :candidate_already_has_3_courses
+    elsif has_course_from_find? && course_has_one_site?
       add_application_choice
       set_course_from_find_id_to_nil
       :candidate_has_new_course_added
@@ -36,5 +39,9 @@ private
 
   def course_has_one_site?
     CourseOption.where(course_id: @candidate.course_from_find_id).one?
+  end
+
+  def candidate_already_has_3_courses
+    @candidate.current_application.application_choices.count >= 3
   end
 end

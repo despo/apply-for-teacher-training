@@ -11,8 +11,26 @@ RSpec.describe ExistingCandidateAuthentication do
   end
 
   describe '#execute' do
+    context 'when the candidate already has 3 application choices' do
+      it 'sets the candidates course_from_find_id to nil and returns :candidate_already_has_3_courses' do
+        new_course = create(:course)
+        candidate = create(:candidate, course_from_find_id: new_course.id)
+        provider = create(:provider)
+        application_form = create(:application_form, candidate: candidate)
+        3.times { course_option_for_provider(provider: provider) }
+        provider.courses.each do |course|
+          create(:application_choice, application_form: application_form, course_option_id: course.course_options.first.id)
+        end
+
+        service = described_class.new(candidate: candidate)
+
+        expect(service.execute).to eq(:candidate_already_has_3_courses)
+        expect(candidate.course_from_find_id).to eq(nil)
+      end
+    end
+
     context 'when the candidate has a course_from_find_id and the course has one site' do
-      it 'adds a the course, resets the course_from_find_in to nil and returns :candidate_has_new_course_added' do
+      it 'adds a the course, sets the course_from_find_in to nil and returns :candidate_has_new_course_added' do
         provider = create(:provider)
         course_option_for_provider(provider: provider)
         candidate = create(:candidate, course_from_find_id: provider.courses.first.id)

@@ -36,6 +36,10 @@ module CandidateInterface
           redirect_to candidate_interface_course_choices_site_path(course.provider.code, course.code)
         elsif service == :candidate_does_not_have_a_course_from_find_id
           redirect_to candidate_interface_application_form_path
+        elsif service == :candidate_already_has_3_courses
+          course = Course.find(course_id)
+          flash[:warning] = "You already have 3 course choices. You will need to delete one choice if you want to apply to #{course.name_and_code}"
+          redirect_to candidate_interface_course_choices_review_path
         end
       else
         redirect_to action: :new

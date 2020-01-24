@@ -18,6 +18,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_my_find_from_id_course_should_be_set_to_nil
 
     given_the_course_i_selected_has_multiple_sites
+    and_i_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
 
     when_i_arrive_at_the_sign_up_page_with_course_params(@course_with_multiple_sites)
@@ -27,6 +28,17 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_see_the_site(@site1)
     and_i_should_see_the_site(@site2)
     and_my_find_from_id_course_should_be_set_to_nil
+
+    and_the_course_i_selected_only_has_one_site
+    and_i_an_existing_candidate_on_apply
+    and_i_have_3_application_options
+
+    when_i_arrive_at_the_sign_up_page_with_course_params(@course_with_multiple_sites)
+    and_i_submit_my_email_address
+    and_click_on_the_magic_link
+    then_i_should_see_the_courses_review_page
+    and_my_find_from_id_course_should_be_set_to_nil
+    and_i_should_be_informed_i_already_have_3_courses
   end
 
   def and_confirm_course_choice_from_find_is_activated
@@ -49,13 +61,11 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_have_less_than_3_application_options
-    provider = create(:provider)
-    2.times { course_option_for_provider(provider: provider) }
-    first_course_option = provider.courses.first.course_options.first.id
-    second_course_option = provider.courses.second.course_options.first.id
-    application_form = create(:application_form, candidate: @candidate)
-    create(:application_choice, application_form: application_form, course_option_id: first_course_option)
-    create(:application_choice, application_form: application_form, course_option_id: second_course_option)
+    application_choice_for_candidate(candidate: @candidate, application_choice_count: 2)
+  end
+
+  def and_i_have_3_application_options
+    application_choice_for_candidate(candidate: @candidate, application_choice_count: 3)
   end
 
   def when_i_arrive_at_the_sign_up_page_with_course_params(course)
@@ -107,5 +117,24 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def then_i_should_see_the_course_choices_site_page
     expect(page).to have_current_path(candidate_interface_course_choices_site_path(@course_with_multiple_sites.provider.code, @course_with_multiple_sites.code))
+  end
+
+  def then_i_should_see_the_candidate_interface_application_form
+    expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def and_i_should_be_informed_i_already_have_3_courses
+    expect(page).to have_content "You already have 3 course choices. You will need to delete one choice if you want to apply to #{@course_with_multiple_sites.name_and_code}"
+  end
+
+private
+
+  def application_choice_for_candidate(candidate:, application_choice_count:)
+    provider = create(:provider)
+    application_form = create(:application_form, candidate: candidate)
+    application_choice_count.times { course_option_for_provider(provider: provider) }
+    provider.courses.each do |course|
+      create(:application_choice, application_form: application_form, course_option_id: course.course_options.first.id)
+    end
   end
 end
