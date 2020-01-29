@@ -1,6 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
+  describe '#application_form_status_counts' do
+    it 'counts unsubmitted applications' do
+      application_choice = create(:application_choice, status: 'unsubmitted')
+
+      expect(ProcessState.new(application_choice.application_form).state).to eql :unsubmitted
+
+      expect(count_for_process_state(:unsubmitted)).to eql(1)
+    end
+
+    it 'counts awaiting references applications' do
+      application_choice = create(:application_choice, status: 'awaiting_references')
+
+      expect(ProcessState.new(application_choice.application_form).state).to eql :awaiting_references
+
+      expect(count_for_process_state(:awaiting_references)).to eql(1)
+    end
+
+    # etc etc
+  end
+
+  def count_for_process_state(process_state)
+    PerformanceStatistics.new.application_form_status_counts.find { |x| x['status'] == process_state.to_s }['count']
+  end
+
   it 'excludes candidates marked as hidden from reporting' do
     hidden_candidate = create(:candidate, hide_in_reporting: true)
     visible_candidate = create(:candidate, hide_in_reporting: false)
@@ -37,36 +61,5 @@ RSpec.describe PerformanceStatistics, type: :model do
     expect(stats[:total_candidate_count]).to eq(1)
     expect(stats[:candidates_with_submitted_forms]).to eq(1)
     expect(stats[:candidates_signed_in_but_not_entered_data]).to eq(0)
-  end
-
-  it 'classifies application forms in the same way as ProcessState' do
-    create(:course_option, course: create(:course, open_on_apply: true))
-    create(:course_option, course: create(:course, open_on_apply: true))
-
-    TestApplications.create_application states: [:unsubmitted]
-    TestApplications.create_application states: [:awaiting_references]
-    TestApplications.create_application states: [:application_complete]
-    TestApplications.create_application states: [:awaiting_provider_decision]
-    TestApplications.create_application states: %i[offer offer]
-    TestApplications.create_application states: %i[offer rejected]
-    TestApplications.create_application states: %i[rejected rejected]
-    TestApplications.create_application states: [:declined]
-    TestApplications.create_application states: [:accepted]
-    TestApplications.create_application states: [:recruited]
-    TestApplications.create_application states: [:enrolled]
-    TestApplications.create_application states: [:withdrawn]
-
-    stats = PerformanceStatistics.new.application_form_status_counts.inject({}) do |agg, row|
-      agg[row['status']] = row['count']
-      agg
-    end
-
-    process_state_counts = ApplicationForm.all.inject(Hash.new(0)) do |total, form|
-      state = ProcessState.new(form).state.to_s
-      total[state] += 1
-      total
-    end
-
-    expect(stats).to eq(process_state_counts)
   end
 end
