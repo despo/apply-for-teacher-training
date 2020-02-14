@@ -88,11 +88,11 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% @statistics.candidate_status_counts.each do |row| %>
+        <% @statistics.process_states.each do |process_state| %>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
-            <td class="govuk-table__cell govuk-table__cell--numeric"><%= row['count'] %></td>
-            <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
+            <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{process_state}.name") %></th>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics[process_state] %></td>
+            <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{process_state}.description") %></td>
           </tr>
         <% end %>
       </tbody>

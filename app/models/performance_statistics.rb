@@ -53,6 +53,10 @@ class PerformanceStatistics
      .sum
   end
 
+  def process_states
+    candidate_status_counts.map { |row| row['status'] }
+  end
+
   def candidate_status_counts
     @candidate_status_counts ||= ActiveRecord::Base
       .connection
