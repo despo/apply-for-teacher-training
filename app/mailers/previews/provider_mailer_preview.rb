@@ -18,7 +18,7 @@ class ProviderMailerPreview < ActionMailer::Preview
 private
 
   def application_choice
-    course_option = FactoryBot.create(:course_option, course: FactoryBot.build(:course))
+    course_option = FactoryBot.create(:course_option, course: FactoryBot.create(:course))
     FactoryBot.create(:submitted_application_choice, course_option: course_option)
   end
 
