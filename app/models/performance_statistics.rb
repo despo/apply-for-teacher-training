@@ -3,6 +3,8 @@ class PerformanceStatistics
   WITH raw_data AS (
       SELECT
           c.id,
+          date_part('year', c.created_at) AS sign_up_year,
+          date_part('week', c.created_at) AS sign_up_week,
           f.id,
           COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
           COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
@@ -32,17 +34,27 @@ class PerformanceStatistics
           c.id, f.id
   )
   SELECT
-      raw_data.status[2],
+      sign_up_year,
+      sign_up_week,
+      raw_data.status[1] as ordering,
+      raw_data.status[2] as status,
       COUNT(*)
   FROM
       raw_data
   GROUP BY
-      raw_data.status
+      raw_data.status,
+      sign_up_year,
+      sign_up_week
   ORDER BY
+      sign_up_year,
+      sign_up_week,
       raw_data.status[1]".freeze
 
   def [](key)
-    candidate_status_counts.find { |x| x['status'] == key.to_s }&.[]('count')
+    candidate_status_counts
+      .select { |x| x['status'] == key.to_s }
+      .map { |x| x['count'] }
+      .sum
   end
 
   def total_candidate_count(only: nil, except: [])
@@ -54,7 +66,11 @@ class PerformanceStatistics
   end
 
   def process_states
-    candidate_status_counts.map { |row| row['status'] }
+    candidate_status_counts
+      .map { |row| [row['ordering'], row['status']] }
+      .uniq
+      .sort_by(&:first)
+      .map(&:second)
   end
 
   def candidate_status_counts
