@@ -54,9 +54,10 @@ private
   end
 
   def submit_application_choice(application_choice)
-    edit_by_time = time_limit_calculator.call[:time_in_future]
-    application_choice.edit_by = edit_by_time
-    ApplicationStateChange.new(application_choice).submit!
+    application_choice.change_state!(
+      :submit,
+      edit_by: time_limit_calculator.call[:time_in_future],
+    )
   end
 
   def time_limit_calculator

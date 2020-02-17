@@ -36,6 +36,13 @@ class ApplicationChoice < ApplicationRecord
     rejected? && !offer_withdrawn_at.nil?
   end
 
+  def change_state!(event, updates = {})
+    assign_attributes(
+      updates.merge(audit_comment: "State change event #{event}"),
+    )
+    ApplicationStateChange.new(self).process_event!(event)
+  end
+
 private
 
   def generate_alphanumeric_id

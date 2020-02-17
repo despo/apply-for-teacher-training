@@ -33,12 +33,12 @@ class MakeAnOffer
 
     @auth.assert_can_make_offer! application_choice: application_choice
 
-    ApplicationStateChange.new(application_choice).make_offer!
-    application_choice.offered_course_option = offered_course_option
-    application_choice.offer = { 'conditions' => offer_conditions }
-
-    application_choice.offered_at = Time.zone.now
-    application_choice.save!
+    application_choice.change_state!(
+      :make_offer,
+      offered_course_option: offered_course_option,
+      offer: { 'conditions' => offer_conditions },
+      offered_at: Time.zone.now,
+    )
 
     SetDeclineByDefault.new(application_form: application_choice.application_form).call
     SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call

@@ -15,13 +15,14 @@ class WithdrawOffer
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).reject!
-      @application_choice.update!(
+      @application_choice.change_state!(
+        :reject,
         offer_withdrawal_reason: @offer_withdrawal_reason,
         offer_withdrawn_at: Time.zone.now,
       )
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
     end
+
     StateChangeNotifier.call(:withdraw_offer, application_choice: @application_choice)
   rescue Workflow::NoTransitionAllowed
     errors.add(

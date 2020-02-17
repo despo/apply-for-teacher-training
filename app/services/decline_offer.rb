@@ -4,8 +4,7 @@ class DeclineOffer
   end
 
   def save!
-    ApplicationStateChange.new(@application_choice).decline!
-    @application_choice.update!(declined_at: Time.zone.now)
+    @application_choice.change_state!(:decline, declined_at: Time.zone.now)
     StateChangeNotifier.call(:offer_declined, application_choice: @application_choice)
   end
 end

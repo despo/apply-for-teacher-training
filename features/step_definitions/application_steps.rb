@@ -61,7 +61,7 @@ end
 
 When(/^the (\w+) takes action "([\w\s]+)"$/) do |_actor, action|
   command_name = (action.gsub(' ', '_') + '!').to_sym
-  ApplicationStateChange.new(@application_choice).send(command_name)
+  @application_choice.change_state!(command_name)
 end
 
 When('{string} provides a reference') do |referee_email|

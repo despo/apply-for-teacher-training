@@ -10,8 +10,7 @@ class SendApplicationToProvider
     return false unless application_choice.application_complete?
 
     ActiveRecord::Base.transaction do
-      set_reject_by_default
-      ApplicationStateChange.new(application_choice).send_to_provider!
+      application_choice.change_state!(:send_to_provider, reject_by_default_dates)
       StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice)
       SendNewApplicationEmailToProvider.new(application_choice: application_choice).call
     end
@@ -19,7 +18,7 @@ class SendApplicationToProvider
 
 private
 
-  def set_reject_by_default
+  def reject_by_default_dates
     time_limit = TimeLimitCalculator.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
@@ -28,8 +27,9 @@ private
     days = time_limit[:days]
     time = time_limit[:time_in_future]
 
-    application_choice.reject_by_default_days = days
-    application_choice.reject_by_default_at = time
-    application_choice.save!
+    {
+      reject_by_default_days: days,
+      reject_by_default_at: time,
+    }
   end
 end

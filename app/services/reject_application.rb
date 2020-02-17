@@ -15,8 +15,8 @@ class RejectApplication
     return unless valid?
 
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).reject!
-      @application_choice.update!(
+      @application_choice.change_state!(
+        :reject,
         rejection_reason: @rejection_reason,
         rejected_at: Time.zone.now,
       )

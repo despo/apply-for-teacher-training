@@ -5,8 +5,7 @@ class AcceptOffer
 
   def save!
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).accept!
-      @application_choice.update!(accepted_at: Time.zone.now)
+      @application_choice.change_state!(:accept, accepted_at: Time.zone.now)
 
       other_application_choices_with_offers.each do |other_application_choice|
         DeclineOffer.new(application_choice: other_application_choice).save!

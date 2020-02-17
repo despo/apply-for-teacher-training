@@ -20,7 +20,7 @@ private
     return unless there_are_now_enough_references_to_progress?
 
     application_form.application_choices.each do |application_choice|
-      ApplicationStateChange.new(application_choice).references_complete!
+      application_choice.change_state!(:references_complete)
     end
 
     SendApplicationsToProvider.new.call
