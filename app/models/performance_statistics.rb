@@ -50,11 +50,17 @@ class PerformanceStatistics
       sign_up_week,
       raw_data.status[1]".freeze
 
-  def [](key)
-    candidate_status_counts
-      .select { |x| x['status'] == key.to_s }
-      .map { |x| x['count'] }
-      .sum
+  def [](key, opts = nil)
+    if opts.present?
+      candidate_status_counts
+        .find { |x| x['status'] == key.to_s && x['sign_up_year'] == opts[:year] && x['sign_up_week'] == opts[:week] }
+        &.[]('count') || 0
+    else
+      candidate_status_counts
+        .select { |x| x['status'] == key.to_s }
+        .map { |x| x['count'] }
+        .sum
+    end
   end
 
   def total_candidate_count(only: nil, except: [])
@@ -78,5 +84,12 @@ class PerformanceStatistics
       .connection
       .execute(CANDIDATE_QUERY)
       .to_a
+  end
+
+  def weeks_with_activity
+    candidate_status_counts
+      .map { |row| [row['sign_up_year'], row['sign_up_week']] }
+      .uniq
+      .sort
   end
 end
