@@ -1,0 +1,8 @@
+---
+applications:
+- name: apply-test-web
+  memory: 256M
+  buildpacks:
+  - ruby_buildpack
+  services:
+  - apply-test-pg
