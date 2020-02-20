@@ -249,6 +249,13 @@ Rails.application.routes.draw do
         get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
         post '/confirm' => 'additional_referees#request_references'
       end
+
+      scope '/diversity' do
+        get '/' => 'ethnicity/base#new', as: :ethnicity_new_base
+        post '/' => 'ethnicity/base#specify', as: :ethnicity_specify_base
+        get '/' => 'ethnicity/base#background', as: :ethnicity_background_base
+        post '/' => 'ethnicity/base#create', as: :ethnicity_create_base
+      end
     end
   end
 

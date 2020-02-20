@@ -1,0 +1,20 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @diversity_form, url: candidate_interface_ethnicity_specify_base_path, method: :post do |f| %>
+
+      <h1 class="govuk-heading-xl">
+        <%= "What is your ethnic group?" %>
+      </h1>
+
+      <%= f.govuk_radio_buttons_fieldset :etnicity, legend: { size: 'm', tag: 'span' } do %>
+        <% select_ethnic_options.each_with_index do |option, i| %>
+            <%= f.govuk_radio_button :etnicity, option.id, label: { text: option.label }, link_errors: i.zero? %>
+        <% end %>
+      <% end %>
+
+      <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+    <% end %>
+  </div>
+</div>
+    
+  

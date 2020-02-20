@@ -26,16 +26,17 @@ module CandidateInterface
     end
 
     def submit_show
-      @application_form = current_application
-      @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
+      redirect_to candidate_interface_ethnicity_new_base_path
+      # @application_form = current_application
+      # @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
 
-      if @application_form_presenter.ready_to_submit?
-        @further_information_form = FurtherInformationForm.new
-      else
-        @errors = @application_form_presenter.section_errors
+      # if @application_form_presenter.ready_to_submit?
+      #   @further_information_form = FurtherInformationForm.new
+      # else
+      #   @errors = @application_form_presenter.section_errors
 
-        render :review
-      end
+      #   render :review
+      # end
     end
 
     def submit
