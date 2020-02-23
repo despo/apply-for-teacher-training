@@ -83,7 +83,7 @@
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Status</th>
           <th scope="col" class="govuk-table__header govuk-table__header--numeric">Total</th>
-          <% @statistics.weeks_with_activity.each do |year, week| %>
+          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
             <th scope="col" class="govuk-table__header"><%= Date.commercial(year, week).strftime('w/c %e %b ’%y') %></th>
           <% end %>
           <th scope="col" class="govuk-table__header">Description</th>
@@ -95,7 +95,7 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{process_state}.name") %></th>
             <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics[process_state] %></td>
-            <% @statistics.weeks_with_activity.each do |year, week| %>
+            <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
               <td class="govuk-table__cell"><%= @statistics[process_state, year: year, week: week] %></td>
             <% end %>
             <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{process_state}.description") %></td>

@@ -63,9 +63,10 @@ class PerformanceStatistics
     end
   end
 
-  def total_candidate_count(only: nil, except: [])
+  def total_candidate_count(only: nil, except: [], in_year_and_week: nil)
     candidate_status_counts
      .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+     .select { |row| in_year_and_week.nil? || [row['sign_up_year'].to_i, row['sign_up_week'].to_i] == in_year_and_week }
      .reject { |row| row['status'].to_sym.in?(except) }
      .map { |row| row['count'] }
      .sum
@@ -86,10 +87,11 @@ class PerformanceStatistics
       .to_a
   end
 
-  def weeks_with_activity
+  def last_6_weeks_with_activity
     candidate_status_counts
       .map { |row| [row['sign_up_year'], row['sign_up_week']] }
       .uniq
       .sort
+      .last(6)
   end
 end
