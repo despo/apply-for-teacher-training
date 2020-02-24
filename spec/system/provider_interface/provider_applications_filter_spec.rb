@@ -43,6 +43,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_sort_by_course
     then_only_rejected_and_offered_applications_should_be_visible
     then_i_do_not_expect_to_see_the_filter_dialogue
+
+    when_i_show_the_filter_dialogue
+    when_i_clear_the_filters
+    then_i_expect_all_applications_to_be_visible
   end
 
   def when_i_visit_the_provider_page
@@ -144,5 +148,16 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_sort_by_course
     click_link('Course')
+  end
+
+  def when_i_clear_the_filters
+    click_link('Clear')
+  end
+
+  def then_i_expect_all_applications_to_be_visible
+    expect(page).to have_css('.govuk-table__body', text: 'Rejected')
+    expect(page).to have_css('.govuk-table__body', text: 'Offer')
+    expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
+    expect(page).to have_css('.govuk-table__body', text: 'Declined')
   end
 end
