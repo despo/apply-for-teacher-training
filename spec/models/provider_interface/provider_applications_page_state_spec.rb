@@ -92,19 +92,49 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
   end
 
-  describe '#filter_options' do
-    it 'returns an array of filter options if params[filters][status] is present' do
+  describe '#status_filter_options' do
+    it 'returns an array of status filter options if params[filters][status] is present' do
       params = { 'filter' => { 'status' => { 'recruited' => 'on', 'declined' => 'on', 'awaiting_provider_decision' => 'on', 'offer' => 'on' } } }
       state = described_class.new(params: params)
 
-      expect(state.filter_options).to eq(%W(recruited declined awaiting_provider_decision offer))
+      expect(state.status_filter_options).to eq(%W(recruited declined awaiting_provider_decision offer))
     end
 
-    it 'if filter param does not exits it returns an empty array' do
+    it 'if status filter param does not exits it returns an empty array' do
       params = {}
       state = described_class.new(params: params)
 
-      expect(state.filter_options).to eq([])
+      expect(state.status_filter_options).to eq([])
+    end
+
+    it 'returns an empty array of filter options if params[filters][status] is not present but params[filters][providers] is' do
+      params = { 'filter' => { 'provider' => { '1' => 'on', '2' => 'on', '3' => 'on', '4' => 'on' } } }
+      state = described_class.new(params: params)
+
+      expect(state.status_filter_options).to eq([])
+    end
+  end
+
+  describe '#provider_filter_options' do
+    it 'returns an array of provider filter options if params[filters][provider] is present' do
+      params = { 'filter' => { 'provider' => { '1' => 'on', '2' => 'on', '3' => 'on', '4' => 'on' } } }
+      state = described_class.new(params: params)
+
+      expect(state.provider_filter_options).to eq(%W(1 2 3 4))
+    end
+
+    it 'if provider filter param does not exits it returns an empty array' do
+      params = {}
+      state = described_class.new(params: params)
+
+      expect(state.provider_filter_options).to eq([])
+    end
+
+    it 'returns an empty array of filter options if params[filters][provider] is not present but params[filters][status] is' do
+      params = { 'filter' => { 'status' => { 'recruited' => 'on', 'declined' => 'on', 'awaiting_provider_decision' => 'on', 'offer' => 'on' } } }
+      state = described_class.new(params: params)
+
+      expect(state.provider_filter_options).to eq([])
     end
   end
 end

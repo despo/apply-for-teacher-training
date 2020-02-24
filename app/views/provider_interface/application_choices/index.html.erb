@@ -4,7 +4,7 @@
   <div class='moj-filter-layout'>
 
     <% if @page_state.filter_visible.eql?('true') %>
-      <%= render ProviderInterface::FilterComponent, page_state: @page_state %>
+      <%= render ProviderInterface::FilterComponent, page_state: @page_state, providers: @providers %>
     <% end %>
 
     <%= render ProviderInterface::ToggleFilterComponent, page_state: @page_state %>

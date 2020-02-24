@@ -1,13 +1,14 @@
 module ProviderInterface
   class ProviderApplicationsPageState
-    attr_reader :sort_order, :sort_by, :filter_visible, :filter_options
+    attr_reader :sort_order, :sort_by, :filter_visible, :provider_filter_options, :status_filter_options
 
     def initialize(params:)
       @params = params
       @sort_order = params[:sort_order].eql?('asc') ? 'asc' : 'desc'
       @sort_by = params[:sort_by].presence || 'last-updated'
       @filter_visible = params['filter_visible'] ||= 'true'
-      @filter_options = extract_filter_options
+      @status_filter_options = extract_status_filter_options
+      @provider_filter_options = extract_provider_filter_options
     end
 
     def ordering_arguments
@@ -20,14 +21,12 @@ module ProviderInterface
 
   private
 
-    def extract_filter_options
-      # i.e. url params
-      if @params[:filter].is_a?(Array)
-        @params[:filter]
-      else
-        # i.e. form params
-        @params.fetch('filter', false) ? @params['filter']['status'].keys : []
-      end
+    def extract_status_filter_options
+      @params.fetch('filter', {}).fetch('status',false) ? @params['filter']['status'].keys : []
+    end
+
+    def extract_provider_filter_options
+      @params.fetch('filter', {}).fetch('provider',false) ? @params['filter']['provider'].keys : []
     end
   end
 end

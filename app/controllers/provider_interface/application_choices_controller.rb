@@ -8,6 +8,8 @@ module ProviderInterface
 
       filtered_application_choices = FilterApplicationChoicesForProviders.call(application_choices: application_choices, page_state: @page_state)
 
+      @providers = filtered_application_choices.map { |choice| choice.provider }.uniq
+
       @application_choices = filtered_application_choices
     end
 

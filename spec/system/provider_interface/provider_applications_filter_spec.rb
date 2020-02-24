@@ -47,6 +47,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_show_the_filter_dialogue
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible
+    save_and_open_page
+
+    when_i_filter_by_provider
+    then_i_only_see_applications_for_a_given_provider
 
   end
 
@@ -63,9 +67,9 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
-    second_provider = create(:provider, :with_signed_agreement, code: 'DEF')
-    third_provider = create(:provider, :with_signed_agreement, code: 'GHI')
+    current_provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training')
+    second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University')
+    third_provider = create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis')
 
     course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
     course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider))
@@ -96,10 +100,10 @@ RSpec.feature 'Providers should be able to filter applications' do
            create(:application_form, first_name: 'Paul', last_name: 'Atreides'), updated_at: 5.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_six, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 6.days.ago)
+           create(:application_form, first_name: 'Duncan', last_name: 'Idaho'), updated_at: 6.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
-           create(:application_form, first_name: 'Paul', last_name: 'Atreides'), updated_at: 7.days.ago)
+           create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
   end
 
   def then_i_expect_to_see_the_hide_filter_button
@@ -180,5 +184,17 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.govuk-table__body', text: 'Offer')
     expect(page).to have_css('.govuk-table__body', text: 'Application withdrawn')
     expect(page).to have_css('.govuk-table__body', text: 'Declined')
+  end
+
+
+  def when_i_filter_by_provider
+    find(:css, '#provider-1').set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_applications_for_a_given_provider
+    expect(page).to have_css('.govuk-table__body', text: 'Hoth Teacher Training')
+    expect(page).not_to have_css('.govuk-table__body', text: 'Caladan University')
+    expect(page).not_to have_css('.govuk-table__body', text: 'University of Arrakis')
   end
 end

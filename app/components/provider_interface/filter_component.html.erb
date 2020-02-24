@@ -36,15 +36,29 @@
                                 </legend>
 
                                 <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "pending_conditions", text: "Accepted", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "recruited", text: "Conditions met", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "declined", text: "Declined", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "awaiting_provider_decision", text: "New", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer", text: "Offered", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "rejected", text: "Rejected", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "withdrawn", text: "Application withdrawn", filter_options: filter_options %>
-                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer_withdrawn", text: "Offer withdrawn", filter_options: filter_options %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "pending_conditions", text: "Accepted", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "recruited", text: "Conditions met", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "declined", text: "Declined", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "awaiting_provider_decision", text: "New", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer", text: "Offered", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "rejected", text: "Rejected", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "withdrawn", text: "Application withdrawn", filter_options: filter_options, type: 'status' %>
+                                    <%= render ProviderInterface::FilterCheckboxComponent, name: "offer_withdrawn", text: "Offer withdrawn", filter_options: filter_options, type: 'status' %>
                                 </div>
+                            </fieldset>
+
+                            <fieldset class="govuk-fieldset">
+
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                  Provider
+                                </legend>
+
+                                <% providers.each do |provider| %>
+                                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                                      <%= render ProviderInterface::FilterCheckboxComponent, name: provider.id, text: provider.name, filter_options: filter_options, type: 'provider' %>
+                                  </div>
+                                <% end %>
+
                             </fieldset>
                         </div>
                     </form>
