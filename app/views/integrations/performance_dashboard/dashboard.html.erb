@@ -6,7 +6,7 @@
   <%= govuk_link_to 'View in large screen mode', '?screen=1' unless params[:screen] %>
 </p>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27">Candidates</h2>
+<h2 class="govuk-heading-l">Candidates</h2>
 
 <div class="app-card app-card--blue govuk-!-margin-bottom-4">
   <span class="app-card__count" id="total-sign-ups"><%= @statistics.total_candidate_count %></span>
@@ -33,19 +33,19 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
         <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:never_signed_in] %></span>
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: [:never_signed_in]) %></span>
           <span>never signed in</span>
         </div>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_not_started_form] %></span>
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: [:unsubmitted_not_started_form]) %></span>
           <span>not started the form</span>
         </div>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="app-card">
-          <span class="app-card__secondary-count"><%= @statistics[:unsubmitted_in_progress] %></span>
+          <span class="app-card__secondary-count"><%= @statistics.total_candidate_count(only: [:unsubmitted_in_progress]) %></span>
           <span>form in progress</span>
         </div>
       </div>
@@ -75,6 +75,55 @@
   </div>
 </div>
 
+<h3 class="govuk-heading-m govuk-!-margin-top-8">Candidates by cohort</h3>
+
+<%
+rows = [
+  { label: 'never signed in', opts: {only: [:never_signed_in]} },
+  { label: 'not started the form', opts: {only: [:unsubmitted_not_started_form]} },
+  { label: 'form in progress', opts: {only: [:unsubmitted_in_progress]} },
+  { label: 'still being processed', opts: {except: %i{ended_without_success pending_conditions recruited enrolled never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}} },
+  { label: 'ended w/o success', opts: {only: %i{ended_without_success}} },
+  { label: 'accepted an offer', opts: {only: %i{pending_conditions recruited enrolled}} },
+]
+%>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header--numeric"></th>
+          <th scope="col" class="govuk-table__header--numeric" colspan="6">Cohorts of candidates who signed up in that week</th>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header--numeric"></th>
+          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
+            <th scope="col" class="govuk-table__header--numeric"><%= week_label(Date.commercial(year, week)) %></th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Number of candidates in cohort</th>
+          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(in_year_and_week: [year, week]) %></td>
+          <% end %>
+        </tr>
+        <% rows.each do |row| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><%= row[:label].capitalize %></th>
+            <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
+              <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(row[:opts].merge(in_year_and_week: [year, week])) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <div class="govuk-grid-row govuk-!-margin-top-4">
   <div class="govuk-grid-column-full">
     <table class="govuk-table">
@@ -83,9 +132,6 @@
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Status</th>
           <th scope="col" class="govuk-table__header govuk-table__header--numeric">Total</th>
-          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
-            <th scope="col" class="govuk-table__header"><%= Date.commercial(year, week).strftime('w/c %e %b ’%y') %></th>
-          <% end %>
           <th scope="col" class="govuk-table__header">Description</th>
         </tr>
       </thead>
@@ -95,9 +141,6 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{process_state}.name") %></th>
             <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics[process_state] %></td>
-            <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
-              <td class="govuk-table__cell"><%= @statistics[process_state, year: year, week: week] %></td>
-            <% end %>
             <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{process_state}.description") %></td>
           </tr>
         <% end %>
