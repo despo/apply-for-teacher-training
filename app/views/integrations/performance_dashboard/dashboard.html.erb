@@ -75,8 +75,6 @@
   </div>
 </div>
 
-<h3 class="govuk-heading-m govuk-!-margin-top-8">Candidates by cohort</h3>
-
 <%
 rows = [
   { label: 'never signed in', opts: {only: [:never_signed_in]} },
@@ -88,34 +86,33 @@ rows = [
 ]
 %>
 
+<h3 class="govuk-heading-m govuk-!-margin-top-8">Candidates, batched by the week they signed up</h3>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <table class="govuk-table">
+      <caption class="govuk-table__caption">Last 6 weeks</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header--numeric"></th>
-          <th scope="col" class="govuk-table__header--numeric" colspan="6">Cohorts of candidates who signed up in that week</th>
+          <th scope="col" class="govuk-table__header--numeric" colspan="6">Where the application is right now</th>
         </tr>
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header--numeric"></th>
-          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
-            <th scope="col" class="govuk-table__header--numeric"><%= week_label(Date.commercial(year, week)) %></th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Sign-up week</th>
+          <th scope="col" class="govuk-table__header--numeric">Batch size</th>
+          <% rows.each do |row| %>
+            <th scope="col" class="govuk-table__header--numeric"><%= row[:label].capitalize %></th>
           <% end %>
         </tr>
       </thead>
 
       <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Number of candidates in cohort</th>
-          <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
-            <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(in_year_and_week: [year, week]) %></td>
-          <% end %>
-        </tr>
-        <% rows.each do |row| %>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header"><%= row[:label].capitalize %></th>
-            <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
-              <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(row[:opts].merge(in_year_and_week: [year, week])) %></td>
+        <% @statistics.last_6_weeks_with_activity.each do |year, week| %>
+          <tr>
+            <th scope="col" class="govuk-table__cell"><%= week_label(Date.commercial(year, week)) %></th>
+            <td scope="col" class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(in_year_and_week: [year, week]) %></td>
+            <% rows.each do |row| %>
+              <td scope="col" class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.total_candidate_count(row[:opts].merge(in_year_and_week: [year, week])) %></td>
             <% end %>
           </tr>
         <% end %>
