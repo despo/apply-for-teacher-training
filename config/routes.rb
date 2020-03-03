@@ -346,6 +346,7 @@ Rails.application.routes.draw do
     post '/notify/callback' => 'notify#callback'
     get '/feature-flags' => 'feature_flags#index'
     get '/performance-dashboard' => 'performance_dashboard#dashboard', as: :performance
+    post '/slack/incident-playbook' => 'slack#incident_playbook'
   end
 
   namespace :support_interface, path: '/support' do
