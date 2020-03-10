@@ -387,7 +387,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/availability-test-parameterisation/templates/",
         "deploymentUrlBaseLocal": "[concat('https://raw.githubusercontent.com/DFE-Digital/apply-for-postgraduate-teacher-training/', parameters('localBranchName'),'/azure/')]",
         "resourceNamePrefix": "[toLower(concat(parameters('subscriptionPrefix'), parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
@@ -900,6 +900,34 @@
                     },
                     "availabilityTests": {
                         "value": "[variables('availabilityTests')]"
+                    },
+                    "testLocations": {
+                        "value": [
+                            {
+                                "Id": "emea-nl-ams-azr"
+                            },
+                            {
+                                "Id": "emea-ru-msa-edge"
+                            },
+                            {
+                                "Id": "emea-se-sto-edge"
+                            },
+                            {
+                                "Id": "emea-gb-db3-azr"
+                            },
+                            {
+                                "Id": "emea-fr-pra-edge"
+                            }
+                        ]
+                    },
+                    "testFrequencySeconds": {
+                        "value": 300
+                    },
+                    "testTimeoutSeconds": {
+                        "value": 30
+                    },
+                    "retryOnTestFailure": {
+                        "value": false
                     }
                 }
             },

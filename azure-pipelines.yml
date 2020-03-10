@@ -14,7 +14,7 @@ variables:
 - name: debug
   value: true
 - name: deployOnly
-  value: false
+  value: true
 
 stages:
 - stage: build_test_release
