@@ -88,12 +88,29 @@ class SyncProviderFromFind
           study_mode: mode,
         )
 
-        course_option.update_vacancy_status_from_detailed_description!(site_status.vac_status)
+        update_vacancy_status_from_detailed_description!(course_option, site_status.vac_status)
       end
     end
 
     course
   end
+
+  def update_vacancy_status_from_detailed_description!(course_option, description)
+    course_option.no_vacancies! and return if description == 'no_vacancies'
+    course_option.vacancies! and return if description == 'both_full_time_and_part_time_vacancies'
+
+    if description == 'full_time_vacancies'
+      course_option.vacancies! and return if full_time?
+      course_option.no_vacancies! and return if part_time?
+    elsif description == 'part_time_vacancies'
+      course_option.vacancies! and return if part_time?
+      course_option.no_vacancies! and return if full_time?
+    end
+
+    raise InvalidVacancyStatusDescriptionError, description
+  end
+
+  class InvalidVacancyStatusDescriptionError < StandardError; end
 
   private_class_method :create_or_update_provider, :create_or_update_course
 end
