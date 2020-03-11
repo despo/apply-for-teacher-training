@@ -54,7 +54,7 @@ RSpec.describe SyncProviderFromFind do
         expect(course_option.site.address_line3).to eq 'Bruntcliffe Lane'
         expect(course_option.site.address_line4).to eq 'MORLEY, LEEDS'
         expect(course_option.site.postcode).to eq 'LS27 0LZ'
-        expect(course_option.vacancy_status).to eq 'full_time_vacancies'
+        expect(course_option.vacancy_status).to eq 'vacancies'
       end
 
       it 'correctly handles missing address info' do
@@ -92,7 +92,7 @@ RSpec.describe SyncProviderFromFind do
 
         SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC')
         expect(CourseOption.count).to eq 1
-        expect(CourseOption.first.vacancy_status).to eq 'full_time_vacancies'
+        expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
 
       it 'correctly handles accrediting providers' do

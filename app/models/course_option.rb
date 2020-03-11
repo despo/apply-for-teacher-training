@@ -12,11 +12,26 @@ class CourseOption < ApplicationRecord
   }
 
   enum vacancy_status: {
-    both_full_time_and_part_time_vacancies: 'both_full_time_and_part_time_vacancies',
-    part_time_vacancies: 'part_time_vacancies',
-    full_time_vacancies: 'full_time_vacancies',
+    vacancies: 'vacancies',
     no_vacancies: 'no_vacancies',
   }
+
+  def update_vacancy_status_from_detailed_description!(description)
+    no_vacancies! and return if description == 'no_vacancies'
+    vacancies! and return if description == 'both_full_time_and_part_time_vacancies'
+
+    if description == 'full_time_vacancies'
+      vacancies! and return if full_time?
+      no_vacancies! and return if part_time?
+    elsif description == 'part_time_vacancies'
+      vacancies! and return if part_time?
+      no_vacancies! and return if full_time?
+    end
+
+    raise InvalidVacancyStatusDescriptionError, description
+  end
+
+  class InvalidVacancyStatusDescriptionError < StandardError; end
 
   def validate_providers
     return unless site.present? && course.present?

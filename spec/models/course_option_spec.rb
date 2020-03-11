@@ -19,4 +19,52 @@ RSpec.describe CourseOption, type: :model do
       end
     end
   end
+
+  describe '#update_vacancy_status_from_detailed_description!' do
+    context 'when study_mode is part_time' do
+      let(:course_option) { create(:course_option, study_mode: :part_time) }
+
+      [
+        { description: 'no_vacancies', vacancy_status: 'no_vacancies' },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: 'vacancies' },
+        { description: 'full_time_vacancies', vacancy_status: 'no_vacancies' },
+        { description: 'part_time_vacancies', vacancy_status: 'vacancies' },
+      ].each do |pair|
+        it "sets #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          course_option.update_vacancy_status_from_detailed_description!(pair[:description])
+
+          expect(course_option.vacancy_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          course_option.update_vacancy_status_from_detailed_description!('foo')
+        }.to raise_error(CourseOption::InvalidVacancyStatusDescriptionError)
+      end
+    end
+
+    context 'when study_mode is full_time' do
+      let(:course_option) { create(:course_option, study_mode: :full_time) }
+
+      [
+        { description: 'no_vacancies', vacancy_status: 'no_vacancies' },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: 'vacancies' },
+        { description: 'full_time_vacancies', vacancy_status: 'vacancies' },
+        { description: 'part_time_vacancies', vacancy_status: 'no_vacancies' },
+      ].each do |pair|
+        it "sets #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          course_option.update_vacancy_status_from_detailed_description!(pair[:description])
+
+          expect(course_option.vacancy_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          course_option.update_vacancy_status_from_detailed_description!('foo')
+        }.to raise_error(CourseOption::InvalidVacancyStatusDescriptionError)
+      end
+    end
+  end
 end
