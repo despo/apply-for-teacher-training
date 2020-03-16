@@ -1,20 +1,18 @@
-<% content_for :browser_title, title_with_success_prefix("Application ##{@application_form.id}", flash[:success].present?) %>
+<% content_for :browser_title, title_with_success_prefix("Application #{@application_form.support_reference}", flash[:success].present?) %>
 <% content_for :title do %>
-  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
-  <%= @application_form.candidate.email_address %>
+  <span class="govuk-caption-xl">Application <%= @application_form.support_reference %></span>
+  <%= @application_form.full_name %>'s application
 <% end %>
 
 <% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= @application_form.candidate.email_address %>
-      </li>
-    </ol>
-  </div>
+  <%= govuk_back_link_to(support_interface_applications_path, 'Back') %>
+
+  <%= render SubNavigationComponent.new(items: [
+    { name: 'Application info', url: support_interface_application_form_path(@application_form), current: true },
+    { name: 'History', url: support_interface_application_form_audit_path(@application_form) },
+    { name: 'Email log', url: '#' },
+    { name: 'Actions', url: support_interface_application_form_actions_path(@application_form) },
+  ]) %>
 <% end %>
 
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
@@ -22,16 +20,6 @@
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
 
 <%= render PersonalDetailsComponent.new(application_form: @application_form) %>
-
-<% unless HostingEnvironment.production? %>
-  <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
-<% end %>
-
-<% if @application_form.candidate.hide_in_reporting? %>
-  <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
-<% else %>
-  <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
-<% end %>
 
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
@@ -87,9 +75,3 @@
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
 
 <%= render PersonalStatementComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
-
-<p class="govuk-body">Ask the candidate to fill out a survey.</p>
-
-<%= govuk_button_link_to t('survey_emails.send.link'), support_interface_survey_emails_path(@application_form), class: 'govuk-button--secondary' %>

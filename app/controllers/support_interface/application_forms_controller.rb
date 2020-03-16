@@ -13,5 +13,10 @@ module SupportInterface
       @application_form = ApplicationForm
         .find(params[:application_form_id])
     end
+
+    def actions
+      @application_form = ApplicationForm
+        .find(params[:application_form_id])
+    end
   end
 end

@@ -1,23 +1,18 @@
-<% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
+<% content_for :browser_title, "Application history – Application ##{@application_form.support_reference}" %>
 <% content_for :title do %>
-  <span class="govuk-caption-xl"><%= @application_form.candidate.email_address %></span>
+  <span class="govuk-caption-xl">Application <%= @application_form.support_reference %></span>
   Application history
 <% end %>
 
 <% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to @application_form.candidate.email_address, support_interface_application_form_path(@application_form), class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Application history
-      </li>
-    </ol>
-  </div>
+  <%= govuk_back_link_to(support_interface_applications_path, 'Back') %>
+
+  <%= render SubNavigationComponent.new(items: [
+    { name: 'Application info', url: support_interface_application_form_path(@application_form) },
+    { name: 'History', url: support_interface_application_form_audit_path(@application_form), current: true },
+    { name: 'Email log', url: '#' },
+    { name: 'Actions', url: support_interface_application_form_actions_path(@application_form) },
+  ]) %>
 <% end %>
 
 <%= govuk_button_link_to 'Add comment', support_interface_application_form_new_comment_path %>
