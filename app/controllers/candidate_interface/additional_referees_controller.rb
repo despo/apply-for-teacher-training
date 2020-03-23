@@ -18,6 +18,7 @@ module CandidateInterface
       if reference.save
         redirect_to_confirm_or_show_another_reference_form
       else
+        track_validation_error(reference)
         @reference = reference
         render :new
       end
@@ -50,6 +51,7 @@ module CandidateInterface
       if current_reference.update(referee_params)
         redirect_to_confirm_or_show_another_reference_form
       else
+        track_validation_error(current_reference)
         @reference = current_reference
         render :edit
       end

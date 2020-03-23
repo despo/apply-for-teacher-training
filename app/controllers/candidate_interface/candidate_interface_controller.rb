@@ -9,6 +9,16 @@ module CandidateInterface
 
   private
 
+    def track_validation_error(form)
+      ValidationError.create!(
+        form_object: form.class.name,
+        what_went_wrong: form.errors.messages.map { |field, message| { field: field, message: message, value: form.public_send(field) } },
+      )
+    rescue => e
+      # Never crash validation error tracking
+      puts "Error during track_validation_error: #{e}"
+    end
+
     def redirect_to_dashboard_if_not_amendable
       redirect_to candidate_interface_application_complete_path if current_application.submitted? && !current_application.amendable?
     end

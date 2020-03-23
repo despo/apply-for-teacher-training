@@ -78,6 +78,7 @@ module CandidateInterface
         AuthenticationMailer.sign_in_without_account_email(to: @candidate.email_address).deliver_now
         redirect_to candidate_interface_check_email_sign_in_path
       else
+        track_validation_error(@candidate)
         render :new
       end
     end
