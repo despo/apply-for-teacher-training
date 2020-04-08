@@ -11,6 +11,7 @@ class FeatureFlag
     equality_and_diversity
     force_ok_computer_to_fail
     improved_expired_token_flow
+    notes
     pilot_open
     prompt_for_additional_qualifications
     provider_application_filters
