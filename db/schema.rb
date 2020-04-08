@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_104031) do
+ActiveRecord::Schema.define(version: 2020_04_08_150738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
     t.integer "decline_by_default_days"
     t.datetime "offered_at"
     t.datetime "rejected_at"
-    t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
+    t.datetime "withdrawn_at"
     t.integer "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
@@ -164,7 +164,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
     t.boolean "hide_in_reporting", default: false, null: false
-    t.integer "course_from_find_id"
+    t.bigint "course_from_find_id"
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
@@ -229,6 +229,15 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "title"
+    t.text "message"
+    t.bigint "application_choice_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
+  end
+
   create_table "provider_agreements", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
@@ -255,8 +264,8 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
@@ -364,6 +373,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_104031) do
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
+  add_foreign_key "notes", "application_choices"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade

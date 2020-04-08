@@ -1,4 +1,10 @@
 FactoryBot.define do
+  factory :note do
+    title { 'MyString' }
+    message { 'MyText' }
+    application_choice { nil }
+  end
+
   factory :chaser_sent do
     candidate
     chased_id { candidate.id }
