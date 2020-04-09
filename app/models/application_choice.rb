@@ -11,7 +11,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
 
-  has_many :notes
+  has_many :notes, dependent: :destroy
 
   audited associated_with: :application_form
 
