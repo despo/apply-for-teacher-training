@@ -3,8 +3,8 @@ class CreateNotes < ActiveRecord::Migration[6.0]
     create_table :notes do |t|
       t.string :title
       t.text :message
-      t.belongs_to :application_choice, null: false, foreign_key: true
-      t.belongs_to :provider_user, null: false, foreign_key: true
+      t.belongs_to :application_choice, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :provider_user, null: false, foreign_key: { on_delete: :cascade }
 
       t.timestamps
     end

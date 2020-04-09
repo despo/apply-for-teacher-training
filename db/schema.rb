@@ -375,8 +375,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_150738) do
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
-  add_foreign_key "notes", "application_choices"
-  add_foreign_key "notes", "provider_users"
+  add_foreign_key "notes", "application_choices", on_delete: :cascade
+  add_foreign_key "notes", "provider_users", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
