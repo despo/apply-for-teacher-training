@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_150738) do
+ActiveRecord::Schema.define(version: 2020_04_09_090712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -235,7 +235,9 @@ ActiveRecord::Schema.define(version: 2020_04_08_150738) do
     t.bigint "application_choice_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "provider_user_id", null: false
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
+    t.index ["provider_user_id"], name: "index_notes_on_provider_user_id"
   end
 
   create_table "provider_agreements", force: :cascade do |t|
@@ -374,6 +376,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_150738) do
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "notes", "application_choices"
+  add_foreign_key "notes", "provider_users"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
