@@ -469,6 +469,8 @@ Rails.application.routes.draw do
     post '/applications/:application_form_id/change-course' => 'change_course#pick_option'
     get '/applications/:application_form_id/add-course' => 'change_course#select_course_to_add', as: :add_course_to_application
     post '/applications/:application_form_id/add-course' => 'change_course#add_course'
+    get '/applications/:application_form_id/cancel' => 'change_course#confirm_cancel_application', as: :cancel_application
+    post '/applications/:application_form_id/cancel' => 'change_course#cancel_application'
 
     get '/candidates' => 'candidates#index'
     get '/candidates/:candidate_id' => 'candidates#show', as: :candidate

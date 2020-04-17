@@ -12,6 +12,8 @@ module SupportInterface
       case change_course_form.change_type
       when 'add_course'
         redirect_to support_interface_add_course_to_application_path(application_form)
+      when 'cancel_application'
+        redirect_to support_interface_cancel_application_path(application_form)
       else
         flash[:info] = "Sorry - we haven't built this feature yet"
         redirect_to support_interface_change_course_path(application_form)
@@ -35,6 +37,18 @@ module SupportInterface
       else
         render :select_course_to_add
       end
+    end
+
+    def confirm_cancel_application
+      @application_form = application_form
+    end
+
+    def cancel_application
+      application_form.application_references.each do |reference|
+        reference.update!(feedback_status: 'cancelled')
+      end
+
+      redirect_to support_interface_application_form_path(application_form)
     end
 
   private

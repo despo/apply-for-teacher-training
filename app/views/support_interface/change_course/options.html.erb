@@ -13,7 +13,7 @@
 
         <%= f.govuk_radio_button :change_type, :replace_course, label: { text: 'Replace a course*' }, hint_text: 'This feature will be available soon' %>
         <%= f.govuk_radio_button :change_type, :remove_course, label: { text: 'Withdraw from a course*' }, hint_text: 'This feature will be available soon' %>
-        <%= f.govuk_radio_button :change_type, :cancel_application, label: { text: 'Withdraw from all courses and cancel application*' }, hint_text: 'This feature will be available soon' %>
+        <%= f.govuk_radio_button :change_type, :cancel_application, label: { text: 'Cancel all courses and cancel application' } %>
       <% end %>
 
       <% if !@pick_option_form.can_add_course? %>
