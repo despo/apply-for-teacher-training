@@ -13,7 +13,6 @@
                                                                          css_class: 'govuk-table__header govuk-!-width-one-quarter',
                                                                          params_for_current_state: @page_state.to_h) %>
 
-
         <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Status</th>
 
         <%= render ProviderInterface::SortableColumnHeadingComponent.new(sort_order: @page_state.sort_order,

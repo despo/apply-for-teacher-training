@@ -9,8 +9,7 @@
           <h2 class="govuk-heading-m" id="success-message">
             <%= link_to 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications',
               provider_interface_covid_19_guidance_path,
-              class: 'govuk-link'
-            %>
+              class: 'govuk-link' %>
           </h2>
         </div>
       </div>
@@ -50,7 +49,6 @@
   </div>
 
   <%= render(PaginatorComponent.new(scope: @application_choices)) %>
-
 
 <% else %>
 

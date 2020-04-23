@@ -16,8 +16,8 @@
       <%= f.govuk_submit 'Continue' %>
     <% else %>
       <%= f.govuk_radio_buttons_fieldset :ratings do %>
-        <%= f.govuk_radio_button :answer, 'yes', label: { text: 'Yes, you can contact me' }  %>
-        <%= f.govuk_radio_button :answer, 'no', label: { text: 'No, do not contact me' }  %>
+        <%= f.govuk_radio_button :answer, 'yes', label: { text: 'Yes, you can contact me' } %>
+        <%= f.govuk_radio_button :answer, 'no', label: { text: 'No, do not contact me' } %>
       <% end %>
       <%= f.govuk_submit 'Continue' %>
     <% end %>
