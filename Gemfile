@@ -17,6 +17,7 @@ gem 'redcarpet'
 
 # Linting
 gem 'rubocop-govuk'
+gem 'erb_lint', require: false
 
 gem 'devise'
 gem 'omniauth'
