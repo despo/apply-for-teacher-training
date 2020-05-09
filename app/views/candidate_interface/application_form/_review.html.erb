@@ -30,16 +30,16 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
 
-<%= render(WorkHistoryReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error)) %>
+<%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error)) %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Volunteering with children and young people</h2>
 
-<%= render(VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error)) %>
+<%= render(CandidateInterface::VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error)) %>
 
 <% if FeatureFlag.active?('suitability_to_work_with_children') %>
   <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
 
-  <%= render(SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error)) %>
+  <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error)) %>
 <% end %>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>

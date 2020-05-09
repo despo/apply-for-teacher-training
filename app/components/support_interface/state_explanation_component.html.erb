@@ -1,0 +1,37 @@
+<h2 class='govuk-heading-l' id='<%= state_name %>'><%= human_state_name %></h2>
+
+<p class="govuk-caption-m">
+  Application status: <%= govuk_link_to state_name.inspect, api_docs_reference_path(anchor: 'applicationattributes-object') %>
+</p>
+
+<% if development_details %>
+<p class='govuk-body-l'>
+  We have <%= govuk_link_to pluralize(machine.state_count(state_name), 'application'), support_interface_applications_path %> currently in this state
+</p>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-body">
+      <%= state_description %>
+    </div>
+
+    <% if state.events.any? %>
+      <h3 class='govuk-heading-m'>Actions</h3>
+
+      <ul class="govuk-list">
+      <% state.events.each do |_, events| %>
+        <%= render SupportInterface::StateEventExplanationComponent.new(machine: machine, from_state: state_name, event: events.first, development_details: development_details) %>
+      <% end %>
+      </ul>
+    <% else %>
+      <div class="govuk-body">
+        This state doesn’t have any more actions.
+      </div>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <%= StateDiagram.svg(only_from_state: state_name, machine: machine) %>
+  </div>
+</div>

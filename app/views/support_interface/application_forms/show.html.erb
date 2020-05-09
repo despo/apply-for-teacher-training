@@ -21,7 +21,7 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
 
-<%= render PersonalDetailsComponent.new(application_form: @application_form) %>
+<%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_form) %>
 
 <% unless HostingEnvironment.production? %>
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
@@ -64,23 +64,23 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-<%= render QualificationsComponent.new(application_form: @application_form) %>
+<%= render ProviderInterface::QualificationsComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Work history</h2>
 
-<%= render WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
+<%= render CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Unpaid experience and volunteering</h2>
 
-<%= render VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
+<%= render CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Language skills</h2>
 
-<%= render LanguageSkillsComponent.new(application_form: @application_form) %>
+<%= render ProviderInterface::LanguageSkillsComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
 
-<%= render PersonalStatementComponent.new(application_form: @application_form) %>
+<%= render ProviderInterface::PersonalStatementComponent.new(application_form: @application_form) %>
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
 

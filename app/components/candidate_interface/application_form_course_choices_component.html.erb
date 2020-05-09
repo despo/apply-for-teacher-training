@@ -9,7 +9,7 @@
 <ul class="app-task-list govuk-!-margin-bottom-8">
   <li class="app-task-list__item">
     <%= render(
-      TaskListItemComponent.new(
+      CandidateInterface::TaskListItemComponent.new(
         text: page_title,
         completed: completed?,
         path: view_courses_path,

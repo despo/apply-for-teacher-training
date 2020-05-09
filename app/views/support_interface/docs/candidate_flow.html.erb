@@ -24,6 +24,6 @@
 </details>
 
 <% ProcessState.workflow_spec.states.each do |_, state| %>
-  <%= render StateExplanationComponent.new(state: state, machine: ProcessState, development_details: true) %>
+  <%= render SupportInterface::StateExplanationComponent.new(state: state, machine: ProcessState, development_details: true) %>
   <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
 <% end %>

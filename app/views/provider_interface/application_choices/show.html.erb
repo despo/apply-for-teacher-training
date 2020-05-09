@@ -29,7 +29,7 @@
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) %>
 
     <h2 class="govuk-heading-l" id="course-info">Application</h2>
-    <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
+    <%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
       <div class="app-status-box app-status-box--sandbox app-!-print-display-none">
@@ -57,7 +57,7 @@
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
 
-    <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
+    <%= render ProviderInterface::QualificationsComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="work-history">Work history</h2>
 
@@ -65,7 +65,7 @@
       <% if FeatureFlag.active?('provider_interface_work_breaks') %>
         <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
       <% else %>
-        <%= render WorkHistoryReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
+        <%= render CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
       <% end %>
     </div>
 
@@ -75,17 +75,17 @@
       <% if FeatureFlag.active?('provider_interface_work_breaks') %>
         <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
       <% else %>
-        <%= render VolunteeringReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
+        <%= render CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_choice.application_form, editable: false, heading_level: 3) %>
       <% end %>
     </div>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="language-skills">Language skills</h2>
 
-    <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
+    <%= render ProviderInterface::LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
 
-    <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
+    <%= render ProviderInterface::PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
     <% if @application_choice.application_form.application_references.any? %>
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
