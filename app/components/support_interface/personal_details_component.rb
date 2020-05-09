@@ -64,7 +64,7 @@ module SupportInterface
     end
 
     def nationality_row
-      formatted_nationalities = [application_form.first_nationality, application_form.second_nationality].reject(&:blank?).to_sentence
+      formatted_nationalities = application_form.nationalities.to_sentence
 
       {
         key: 'Nationality',
@@ -80,17 +80,9 @@ module SupportInterface
     end
 
     def address_row
-      full_address = [
-        application_form.address_line1,
-        application_form.address_line2,
-        application_form.address_line3,
-        application_form.address_line4,
-        application_form.postcode,
-      ].reject(&:blank?)
-
       {
         key: 'Address',
-        value: full_address,
+        value: application_form.full_address,
       }
     end
 

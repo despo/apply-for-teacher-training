@@ -121,6 +121,23 @@ class ApplicationForm < ApplicationRecord
     apply_again? && application_choices.present?
   end
 
+  def full_address
+    [
+      address_line1,
+      address_line2,
+      address_line3,
+      address_line4,
+      postcode,
+    ].reject(&:blank?)
+  end
+
+  def nationalities
+    [
+      first_nationality,
+      second_nationality,
+    ].reject(&:blank?)
+  end
+
   audited
 
   def ended_without_success?
