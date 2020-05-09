@@ -1,0 +1,29 @@
+<%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: application_form) %>
+
+<% if FeatureFlag.active?('provider_view_safeguarding') %>
+  <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: application_form)%>
+<% end %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
+
+<%= render ProviderInterface::QualificationsComponent.new(application_form: application_form) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-8" id="work-history">Work history</h2>
+
+<div data-qa="work-history">
+  <%= render ProviderInterface::WorkHistoryComponent.new(application_form: application_form) %>
+</div>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-8" id="volunteering">Unpaid experience and volunteering</h2>
+
+<div data-qa="volunteering">
+  <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: application_form) %>
+</div>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-8" id="language-skills">Language skills</h2>
+
+<%= render ProviderInterface::LanguageSkillsComponent.new(application_form: application_form) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
+
+<%= render ProviderInterface::PersonalStatementComponent.new(application_form: application_form) %>

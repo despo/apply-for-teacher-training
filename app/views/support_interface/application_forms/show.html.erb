@@ -62,29 +62,37 @@
   <% end %>
 <% end %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Qualifications</h2>
-
-<%= render ProviderInterface::QualificationsComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Work history</h2>
-
-<%= render CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Unpaid experience and volunteering</h2>
-
-<%= render CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Language skills</h2>
-
-<%= render ProviderInterface::LanguageSkillsComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
-
-<%= render ProviderInterface::PersonalStatementComponent.new(application_form: @application_form) %>
-
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
 
 <%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Application data</h2>
+
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Contents
+  </h2>
+  <ul class="govuk-tabs__list">
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#what-the-provider-sees">
+        What the provider sees
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#what-the-candidate-sees">
+        What the candidate sees
+      </a>
+    </li>
+  </ul>
+
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="what-the-provider-sees">
+    <%= render 'provider_interface/application_choices/application_form_specific_data', application_form: @application_form %>
+  </div>
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="what-the-candidate-sees">
+    <%= render 'candidate_interface/application_form/application_form_specific_data', application_form: @application_form, editable: false, missing_error: false %>
+  </div>
+</div>
+
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
 
