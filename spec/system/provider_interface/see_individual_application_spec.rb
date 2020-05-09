@@ -153,15 +153,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     within '[data-qa="work-history"]' do
       expect(page).to have_content 'Smuggler'
       expect(page).to have_content 'The Empire'
-      expect(page).to have_content 'Working pattern at the Empire'
-      expect(page).to have_content 'I used to work for'
-      expect(page).not_to have_content 'This role involved working with children'
-
-      expect(page).to have_content 'Bounty Hunter'
-
-      # Work history is not editable
-      expect(page).not_to have_content 'Change'
-      expect(page).not_to have_content 'Delete'
     end
   end
 
@@ -169,12 +160,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     within '[data-qa="volunteering"]' do
       expect(page).to have_content 'Defence co-ordinator'
       expect(page).to have_content 'Rebel Alliance'
-      expect(page).to have_content 'survive clone attacks'
-      expect(page).to have_content 'This role involved working with children'
-
-      # Volunteering is not editable
-      expect(page).not_to have_content 'Change'
-      expect(page).not_to have_content 'Delete'
     end
   end
 
