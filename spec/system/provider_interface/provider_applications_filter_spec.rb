@@ -4,7 +4,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  scenario 'can filter applications by status and provider' do
+  scenario 'can filter applications by status and provider, and location' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_provider_application_filters_are_active
     and_i_am_permitted_to_see_applications_from_multiple_providers
@@ -46,6 +46,9 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_click_to_remove_an_accredited_provider_tag
     then_i_expect_all_applications_to_be_visible_again
 
+    when_i_filter_by_provider
+    then_expect_that_providers_locations_to_be_visible_as_filter_options
+
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
@@ -64,8 +67,10 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training')
-    second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University')
+    current_provider_sites = [create(:site, name: 'Ironbarrow High School'), create(:site, name: 'Ostbarrow High')]
+    second_provider_sites = [create(:site, name: 'Bishopsheath School'), create(:site, name: 'Thames High')]
+    current_provider = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: current_provider_sites)
+    second_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: second_provider_sites)
     third_provider = create(:provider, :with_signed_agreement, code: 'GHI', name: 'University of Arrakis')
 
     accredited_provider1 = create(:provider, code: 'JKL', name: 'College of Dumbervale')
@@ -104,6 +109,18 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
            create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
+    binding.pry
+  end
+
+  def then_expect_that_providers_locations_to_be_visible_as_filter_options
+    filter_dialogue = find(:css, '.moj-filter')
+    expect(filter_dialogue).to have_content('Locations for Hoth Teacher Training')
+    expect(filter_dialogue).to have_content('Ironbarrow High School')
+    expect(filter_dialogue).to have_content('Ostbarrow high')
+
+    expect(filter_dialogue).to have_content('Locations for Caladan University')
+    expect(filter_dialogue).to have_content('Bishopsheath school')
+    expect(filter_dialogue).to have_content('Thames high')
   end
 
   def then_i_expect_to_see_the_filter_dialogue
