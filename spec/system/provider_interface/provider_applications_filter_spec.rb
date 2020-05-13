@@ -109,18 +109,17 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
            create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
-    binding.pry
   end
 
   def then_expect_that_providers_locations_to_be_visible_as_filter_options
     filter_dialogue = find(:css, '.moj-filter')
     expect(filter_dialogue).to have_content('Locations for Hoth Teacher Training')
     expect(filter_dialogue).to have_content('Ironbarrow High School')
-    expect(filter_dialogue).to have_content('Ostbarrow high')
+    expect(filter_dialogue).to have_content('Ostbarrow High')
 
     expect(filter_dialogue).to have_content('Locations for Caladan University')
-    expect(filter_dialogue).to have_content('Bishopsheath school')
-    expect(filter_dialogue).to have_content('Thames high')
+    expect(filter_dialogue).to have_content('Bishopsheath School')
+    expect(filter_dialogue).to have_content('Thames High')
   end
 
   def then_i_expect_to_see_the_filter_dialogue

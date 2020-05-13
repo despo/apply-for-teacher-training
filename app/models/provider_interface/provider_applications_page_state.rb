@@ -10,6 +10,7 @@ module ProviderInterface
       @available_filters = calculate_available_filters
       @filter_visible =  calculate_filter_visibility
       @filter_selections = calculate_filter_selections
+      @locations = provider_locations_filters_builder
     end
 
     def applications_ordering_query
@@ -60,7 +61,7 @@ module ProviderInterface
     end
 
     def calculate_available_filters
-      search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder
+     (search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder) + provider_locations_filters_builder
     end
 
     def search_filters
@@ -130,6 +131,28 @@ module ProviderInterface
         heading: 'accredited_provider',
         input_config: input_config,
       }
+    end
+
+    def provider_locations_filters_builder
+      locations = []
+      if calculate_filter_selections[:provider].present?
+        providers = Provider.includes([:sites]).where(id: calculate_filter_selections[:provider].keys)
+        providers.each do |provider|
+          input_config = provider.sites.map do |site|
+            {
+              type: 'checkbox',
+              text: site.name,
+              name: site.id.to_s,
+            }
+          end
+
+          locations << {
+            heading: "Locations for #{provider.name}",
+            input_config: input_config,
+          }
+        end
+      end
+      locations
     end
   end
 end

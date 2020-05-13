@@ -9,6 +9,7 @@ module ProviderInterface
         provider_user: current_provider_user,
       )
 
+
       application_choices = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       )
