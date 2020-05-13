@@ -24,6 +24,18 @@ class FilterApplicationChoicesForProviders
       application_choices.where('courses.accredited_provider_id' => filters[:accredited_provider].keys)
     end
 
+    def locations(application_choices, filters)
+      application_choices.where('sites.id' => locations_ids_from_filters(filters))
+    end
+
+    def locations_ids_from_filters(filters)
+      ids = []
+      filters.keys.grep(/locations/).each do |location|
+        ids << filters[location].keys
+      end
+      ids
+    end
+
     def search_exists?(filters)
       filters.fetch(:search, {}).fetch(:candidates_name, '').empty? ? false : true
     end
@@ -34,6 +46,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = provider(filtered_application_choices, filters) if filters[:provider]
       filtered_application_choices = accredited_provider(filtered_application_choices, filters) if filters[:accredited_provider]
       filtered_application_choices = status(filtered_application_choices, filters) if filters[:status]
+      filtered_application_choices = locations(application_choices, filters) if filters.keys.grep(/locations/).first
       filtered_application_choices
     end
   end

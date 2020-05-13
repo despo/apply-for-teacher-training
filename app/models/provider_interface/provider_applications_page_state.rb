@@ -48,8 +48,22 @@ module ProviderInterface
       filter_selections
     end
 
+    def locations_keys
+      locations_keys_hash = {}
+      if @params[:filter_selections]
+        @params[:filter_selections].keys.grep(/locations/).each do |location|
+          locations_keys_hash[location.to_sym] = {}
+        end
+      end
+      locations_keys_hash
+    end
+
     def filter_params
-      @params.permit(:filter_visible, filter_selections: { search: {}, status: {}, provider: {}, accredited_provider: {} })
+      @params.permit(:filter_visible,
+                     filter_selections: { search: {},
+                                          status: {},
+                                          provider: {},
+                                          accredited_provider: {},}.merge(locations_keys))
     end
 
     def calculate_sort_order

@@ -48,10 +48,33 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     when_i_filter_by_provider
     then_expect_that_providers_locations_to_be_visible_as_filter_options
+    and_when_i_filter_by_a_location
+    then_i_expect_applications_not_associated_to_that_locations_to_not_be_visible
+    then_i_expect_applications_sorted_by_the_selected_location_to_be_visible
 
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
+  end
+
+  def then_i_expect_applications_not_associated_to_that_locations_to_not_be_visible
+    cards = find(:css, '.moj-filter-layout__content')
+    expect(cards).not_to have_css('Greg Taft')
+    expect(cards).not_to have_css('Luke Smith')
+  end
+
+  def and_when_i_filter_by_a_location
+    find(:css, '#provider-hoth-teacher-training').set(true)
+    find(:css, '#locations-for-hoth-teacher-training-ironbarrow-high-school').set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_expect_applications_sorted_by_the_selected_location_to_be_visible
+    cards = find(:css, '.moj-filter-layout__content')
+    expect(cards).to have_content('Jim James')
+    expect(cards).to have_content('Adam Jones')
+    expect(cards).to have_content('Tom Jones')
+    expect(cards).to have_content('Bill Bones')
   end
 
   def when_i_visit_the_provider_page

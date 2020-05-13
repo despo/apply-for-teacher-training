@@ -10,6 +10,7 @@ module ProviderInterface
       )
 
 
+
       application_choices = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       )
