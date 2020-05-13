@@ -60,6 +60,37 @@ module ProviderInterface
       @params[:sort_by].presence || 'last-updated'
     end
 
+    def providers_have_been_selected?
+      calculate_filter_selections[:provider].present?
+    end
+
+    def provider_ids_from_selections
+      calculate_filter_selections[:provider].keys
+    end
+
+    def providers_with_sites(ids:)
+      Provider.includes([:sites]).where(id: ids)
+    end
+
+    def sites_config(provider:)
+      provider.sites.map do |site|
+        {
+          type: 'checkbox',
+          text: site.name,
+          name: site.id.to_s,
+        }
+      end
+    end
+
+    def providers_locations_config
+      providers_with_sites(ids: provider_ids_from_selections).map do |provider|
+        {
+          heading: "Locations for #{provider.name}",
+          input_config: sites_config(provider: provider),
+        }
+      end
+    end
+
     def calculate_available_filters
      (search_filters << status_filters << provider_filters_builder << accredited_provider_filters_builder) + provider_locations_filters_builder
     end
@@ -134,25 +165,8 @@ module ProviderInterface
     end
 
     def provider_locations_filters_builder
-      locations = []
-      if calculate_filter_selections[:provider].present?
-        providers = Provider.includes([:sites]).where(id: calculate_filter_selections[:provider].keys)
-        providers.each do |provider|
-          input_config = provider.sites.map do |site|
-            {
-              type: 'checkbox',
-              text: site.name,
-              name: site.id.to_s,
-            }
-          end
-
-          locations << {
-            heading: "Locations for #{provider.name}",
-            input_config: input_config,
-          }
-        end
-      end
-      locations
+      return providers_locations_config if providers_have_been_selected?
+      []
     end
   end
 end
