@@ -99,39 +99,117 @@ RSpec.feature 'Providers should be able to filter applications' do
     accredited_provider1 = create(:provider, code: 'JKL', name: 'College of Dumbervale')
     accredited_provider2 = create(:provider, code: 'MNO', name: 'Wimleydown University')
 
-    course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider, accredited_provider: accredited_provider1))
-    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
-    course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
+    course_option_one = course_option_for_provider(provider: current_provider,
+                                                   site: current_provider.sites.first,
+                                                   course: create(:course,
+                                                                  name: 'Alchemy',
+                                                                  provider: current_provider,
+                                                                  accredited_provider: accredited_provider1))
 
-    course_option_four = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
-    course_option_five = course_option_for_provider(provider: second_provider, course: create(:course, name: 'History', provider: second_provider))
+    course_option_two = course_option_for_provider(provider: current_provider,
+                                                   site: current_provider.sites.first,
+                                                   course: create(:course,
+                                                                  name: 'Divination',
+                                                                  provider: current_provider,
+                                                                  accredited_provider: accredited_provider2))
 
-    course_option_six = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Maths', provider: third_provider))
-    course_option_seven = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Engineering', provider: third_provider))
+    course_option_three = course_option_for_provider(provider: current_provider,
+                                                     site: current_provider.sites.first,
+                                                     course: create(:course,
+                                                                    name: 'English',
+                                                                    provider: current_provider))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
+    course_option_four = course_option_for_provider(provider: second_provider,
+                                                    course: create(:course,
+                                                                   name: 'Science',
+                                                                   provider: second_provider))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
-           create(:application_form, first_name: 'Adam', last_name: 'Jones'), updated_at: 2.days.ago)
+    course_option_five = course_option_for_provider(provider: second_provider,
+                                                    course: create(:course,
+                                                                   name: 'History',
+                                                                   provider: second_provider))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'rejected', application_form:
-           create(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
+    course_option_six = course_option_for_provider(provider: third_provider,
+                                                   course: create(:course,
+                                                                  name: 'Maths',
+                                                                  provider: third_provider))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_three, status: 'declined', application_form:
-           create(:application_form, first_name: 'Bill', last_name: 'Bones'), updated_at: 3.days.ago)
+    course_option_seven = course_option_for_provider(provider: third_provider,
+                                                     course: create(:course,
+                                                                    name: 'Engineering',
+                                                                    provider: third_provider))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_four, status: 'offer', application_form:
-           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_one,
+           status: 'withdrawn',
+           updated_at: 1.day.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Jim',
+                                    last_name: 'James'))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_five, status: 'rejected', application_form:
-           create(:application_form, first_name: 'Paul', last_name: 'Atreides'), updated_at: 5.days.ago)
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_two,
+           status: 'offer',
+           updated_at: 2.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Adam',
+                                    last_name: 'Jones'))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_six, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Duncan', last_name: 'Idaho'), updated_at: 6.days.ago)
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_two,
+           status: 'rejected',
+           updated_at: 2.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Tom',
+                                    last_name: 'Jones'))
 
-    create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
-           create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_three,
+           status: 'declined',
+           updated_at: 3.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Bill',
+                                    last_name: 'Bones'))
+
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_four,
+           status: 'offer',
+           updated_at: 4.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Greg',
+                                    last_name: 'Taft'))
+
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_five,
+           status: 'rejected',
+           updated_at: 5.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Paul',
+                                    last_name: 'Atreides'))
+
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_six,
+           status: 'withdrawn',
+           updated_at: 6.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Duncan',
+                                    last_name: 'Idaho'))
+
+    create(:application_choice,
+           :awaiting_provider_decision,
+           course_option: course_option_seven,
+           status: 'declined',
+           updated_at: 7.days.ago,
+           application_form: create(:application_form,
+                                    first_name: 'Luke',
+                                    last_name: 'Smith'))
   end
 
   def then_expect_that_providers_locations_to_be_visible_as_filter_options
