@@ -100,6 +100,7 @@ module ProviderInterface
       providers_with_sites(ids: provider_ids_from_selections).map do |provider|
         {
           heading: "Locations for #{provider.name}",
+          group_type: 'location',
           input_config: sites_config(provider: provider),
         }
       end

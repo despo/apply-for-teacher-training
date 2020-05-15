@@ -19,6 +19,14 @@ module ProviderInterface
     def retrieve_tag_text(heading, lookup_val)
       if heading.eql?('search')
         @applied_filters[:search][:candidates_name]
+      elsif heading.include?('locations-for')
+        @available_filters.each do |available_filter|
+          if available_filter.key('location')
+            available_filter[:input_config].each do |input_config|
+              return input_config[:text].to_s if input_config.key(lookup_val)
+            end
+          end
+        end
       else
         @available_filters.each do |available_filter|
           if available_filter.key(heading)

@@ -52,9 +52,16 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_expect_applications_not_associated_to_that_locations_to_not_be_visible
     then_i_expect_applications_sorted_by_the_selected_location_to_be_visible
 
+    and_i_expect_the_rekevant_location_tags_to_be_visible
+
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
+  end
+
+  def and_i_expect_the_rekevant_location_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Ironbarrow High School')
+    expect(page).not_to have_css('.moj-filter-tags', text: ':input_config=>[{:type=>"checkbox", :text=>"Ironbarrow High School",')
   end
 
   def then_i_expect_applications_not_associated_to_that_locations_to_not_be_visible
