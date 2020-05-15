@@ -51,12 +51,18 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_when_i_filter_by_a_location
     then_i_expect_applications_not_associated_to_that_locations_to_not_be_visible
     then_i_expect_applications_sorted_by_the_selected_location_to_be_visible
+    and_i_expect_the_relevant_location_checkbox_to_be_checked
 
     and_i_expect_the_rekevant_location_tags_to_be_visible
 
     and_provider_application_filters_are_deactivated
 
     when_i_visit_the_provider_page
+  end
+
+  def and_i_expect_the_relevant_location_checkbox_to_be_checked
+    rejected_checkbox = find(:css, '#locations-for-hoth-teacher-training-ironbarrow-high-school')
+    expect(rejected_checkbox.checked?).to be(true)
   end
 
   def and_i_expect_the_rekevant_location_tags_to_be_visible

@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def checkbox_checked?(heading:, name:)
-      applied_filters.dig(heading, name) ? true : false
+      applied_filters.dig(heading.parameterize, name) ? true : false
     end
 
     def is_candidates_name_search_field?(filter_group)
