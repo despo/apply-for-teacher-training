@@ -1,4 +1,5 @@
 <div class="govuk-checkboxes__item">
+  <input id="full-text-for-<%= full_text.parameterize %>" name=<%= "filter_selections[#{heading}][full_text]" %> type="hidden" value="<%= full_text %>">
   <input class="govuk-checkboxes__input" id=<%= "#{heading}-#{text.parameterize}" %> name=<%= "filter_selections[#{heading}][#{name}]" %> type="checkbox" <%= "checked" if selected %> >
   <label class="govuk-label govuk-checkboxes__label" for=<%= "#{heading}-#{text.parameterize}" %>>
     <%= text %>
