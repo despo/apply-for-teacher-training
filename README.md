@@ -2,6 +2,8 @@
 
 A service for candidates to apply for teacher training. We're currently in beta.
 
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRJHJbEaPAnBOxr49TnL8HuChtYKvWmznmLqYtt20tcquEywtRD3lfEkhrLInUQodWFMmY5mq93_XKA/embed?start=false&loop=false&delayms=3000" frameborder="0" width="1440" height="839" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
 ## Live environments
 
 | Name       | URL                                                                              | Description                                                             | Azure ID  |
