@@ -59,6 +59,10 @@ module CandidateInterface
       if @further_information_form.save(current_application)
         SubmitApplication.new(current_application).call
 
+        if current_application.apply_again?
+          SendApplyAgainApplicationToProvider.call(application_form: current_application)
+        end
+
         redirect_to candidate_interface_application_submit_success_path
       else
         track_validation_error(@further_information_form)
