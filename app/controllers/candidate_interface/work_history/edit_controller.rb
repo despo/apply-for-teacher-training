@@ -14,10 +14,9 @@ module CandidateInterface
                                   start_date_year: start_date.year,
                                   end_date_month: end_date&.month || '',
                                   end_date_year: end_date&.year || '',
-                                  add_another_job: true,
                                 )
                               else
-                                WorkExperienceForm.new(add_another_job: true)
+                                WorkExperienceForm.new
                               end
     end
 
