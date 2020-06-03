@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
   context 'when one reference is in the feedback_requested state' do
     context 'when the candidates courses all have the same provider' do
       it 'renders the correct pluralization for referees, references and providers' do
-        result = render_inline(described_class.new(application_form: @application_form))
+        result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('Reference')
         expect(result.css('.govuk-body').text).to include('training provider')
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
         provider2 = create(:provider)
         course_option_for_provider(provider: provider2)
         create(:application_choice, application_form: @application_form, course_option: provider2.courses.first.course_options.first)
-        result = render_inline(described_class.new(application_form: @application_form))
+        result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('Reference')
         expect(result.css('.govuk-body').text).to include('training providers')
@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
     context 'when the candidates courses all have the same provider' do
       it 'renders the correct pluralization for referees, references and providers' do
         create(:reference, :requested, application_form: @application_form)
-        result = render_inline(described_class.new(application_form: @application_form))
+        result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('References')
         expect(result.css('.govuk-body').text).to include('training provider')
@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
         course_option_for_provider(provider: provider2)
         create(:application_choice, application_form: @application_form, course_option: provider2.courses.first.course_options.first)
         create(:reference, :requested, application_form: @application_form)
-        result = render_inline(described_class.new(application_form: @application_form))
+        result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('References')
         expect(result.css('.govuk-body').text).to include('training providers')
