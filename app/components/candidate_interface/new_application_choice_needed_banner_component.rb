@@ -7,14 +7,17 @@ module CandidateInterface
     end
 
     def render?
-      a_course_has_been_withdrawn || an_application_choice_has_become_full
+      a_course_has_been_withdrawn? || an_application_choice_has_become_full?
     end
 
   private
 
-    def a_course_has_been_withdrawn
-      binding.pry
-      application_form.application_choices.map(&:application_form).map(&:withdrawn).any?
+    def a_course_has_been_withdrawn?
+      application_form.application_choices.map(&:course_option).select(&:course_withdrawn?).any?
+    end
+
+    def an_application_choice_has_become_full?
+      application_form.application_choices.map(&:course_option).select(&:no_vacancies?).any?
     end
 
     attr_reader :application_form
