@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::NewApplicationChoiceNeededBannerComponent do
+RSpec.describe CandidateInterface::NewCourseChoiceNeededBannerComponent do
   # if a course choice has been withdrawn or become full it shows
   # so withrawn? or no vacancies.
   describe '#render?' do

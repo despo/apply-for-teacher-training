@@ -1,5 +1,7 @@
 module CandidateInterface
-  class NewApplicationChoiceNeededBannerComponent < ViewComponent::Base
+  class NewCourseChoiceNeededBannerComponent < ViewComponent::Base
+    include ViewHelper
+
     validates :application_form, presence: true
 
     def initialize(application_form:)
