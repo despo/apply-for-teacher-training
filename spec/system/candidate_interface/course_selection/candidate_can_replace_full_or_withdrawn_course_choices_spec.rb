@@ -64,7 +64,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_arrive_on_the_update_application_choice_page
-    expect(page).to have_curent_path candidate_interface_replace_course_choice_show_path(@course_option.id)
+    expect(page).to have_curent_path candidate_interface_replace_course_choice_decision_path(@course_option.application_choice.id)
   end
 
   def when_i_choose_to_add_a_different_course
@@ -83,7 +83,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_see_the_confirmation_page
-    expect(page).to have_curent_path candidate_interface_replace_application_choice_path(@course_option1.id, @course_option2.id)
+    expect(page).to have_curent_path candidate_interface_replace_application_choice_path(@course_option.application_choice.id, @course_option2.id)
   end
 
   def and_i_see_my_full_application_choice
@@ -99,7 +99,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def then_i_see_the_update_application_page
-    expect(page).to have_curent_path candidate_interface_confirm_application_choice_update_path(@course_option1.id, @course_option2.id)
+    expect(page).to have_curent_path candidate_interface_confirm_application_choice_update_path(@course_option.application_choice.id, @course_option2.id)
   end
 
   def when_i_click_update_application

@@ -201,7 +201,8 @@ Rails.application.routes.draw do
         get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
         get '/replace' => 'course_choices/replace_choice#index', as: :replace_course_choice_index
-        get '/show/:id' => 'course_choices/replace_choice#show', as: :replace_course_choice_show
+        get '/decision/:id' => 'course_choices/replace_choice#decision', as: :replace_course_choice_decision
+        post '/decision/:id' => 'course_choices/replace_choice#record_decision', as: :replace_course_choice_record_decision
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
