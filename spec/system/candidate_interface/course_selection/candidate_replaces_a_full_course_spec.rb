@@ -26,6 +26,9 @@ RSpec.feature 'Selecting a course' do
     when_i_choose_a_provider_with_no_courses_on_ucas
     then_i_see_the_replace_course_choices_ucas_no_courses_page
 
+    when_i_click_back
+    then_i_see_the_pick_replacment_provider_page
+
     when_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
 
@@ -121,7 +124,7 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_see_the_replace_course_choices_ucas_no_courses_page
     expect(page).to have_content t('page_titles.apply_to_provider_on_ucas')
-    expect(page).to have_current_path candidate_interface_replace_course_choices_ucas_no_courses_path(@course_choice.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choices_ucas_no_courses_path(@course_choice.id, @provider_with_no_courses.id)
   end
 
   def when_i_choose_a_provider
