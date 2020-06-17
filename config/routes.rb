@@ -213,6 +213,7 @@ Rails.application.routes.draw do
 
         get '/replace/:id/choose' => 'course_choices/replace_choices/have_you_chosen#ask', as: :replace_course_choices_choose
         post '/replace/:id/choose' => 'course_choices/replace_choices/have_you_chosen#decide'
+        get '/replace/:id/find-a-course' => 'course_choices/replace_choices/have_you_chosen#go_to_find', as: :replace_go_to_find
 
         get '/replace' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
         post '/replace' => 'course_choices/replace_choices/base#picked_choice'
