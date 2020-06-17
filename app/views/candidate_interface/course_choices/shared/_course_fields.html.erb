@@ -1,7 +1,6 @@
 <%= f.govuk_error_summary %>
 
 <% if @pick_course.radio_available_courses.count > 20 %>
-
   <%= f.govuk_collection_select(
         :course_id,
         select_course_options(@pick_course.dropdown_available_courses),

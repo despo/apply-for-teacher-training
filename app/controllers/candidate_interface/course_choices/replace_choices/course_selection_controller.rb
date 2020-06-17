@@ -13,6 +13,7 @@ module CandidateInterface
 
         def create
           @course_choice = current_application.application_choices.find(params['id'])
+          @provider = Provider.find(params['provider_id'])
           course_id = params.dig(:candidate_interface_pick_course_form, :course_id)
           @pick_course = PickCourseForm.new(
             provider_id: params.fetch(:provider_id),
