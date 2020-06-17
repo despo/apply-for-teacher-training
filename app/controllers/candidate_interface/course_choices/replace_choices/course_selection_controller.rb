@@ -3,10 +3,12 @@ module CandidateInterface
     module ReplaceChoices
       class CourseSelectionController < BaseController
         def new
-            @pick_course = PickCourseForm.new(
-              provider_id: params.fetch(:provider_id),
-              application_form: current_application,
-            )
+          @course_choice = current_application.application_choices.find(params['id'])
+          @provider = Provider.find(params['provider_id'])
+          @pick_course = PickCourseForm.new(
+            provider_id: params.fetch(:provider_id),
+            application_form: current_application,
+          )
         end
 
         def create
