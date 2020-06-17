@@ -5,7 +5,6 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(model: @pick_site, url: candidate_interface_validate_new_course_choice_location_path) do |f| %>
       <%= render partial: 'candidate_interface/course_choices/shared/site_fields', locals: { f: f }  %>
-      <%= f.govuk_error_summary %>
     <% end %>
   </div>
 </div>
