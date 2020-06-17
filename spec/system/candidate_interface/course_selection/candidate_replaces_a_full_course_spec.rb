@@ -14,6 +14,12 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_to_replace_my_course
     then_i_see_the_have_you_chosen_page
 
+    when_i_choose_that_i_do_not_know_where_i_want_to_apply
+    then_i_see_the_go_to_find_page
+
+    when_i_click_back
+    then_i_see_the_have_you_chosen_page
+
     when_i_choose_that_i_know_where_i_want_to_apply
     then_i_see_the_pick_replacment_provider_page
 
@@ -27,6 +33,7 @@ RSpec.feature 'Selecting a course' do
     then_i_see_the_pick_replacment_study_mode_page
     then_i_see_the_address
     and_i_choose_a_location
+    then_i_see_the_confirm_replacement_page
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -72,6 +79,19 @@ RSpec.feature 'Selecting a course' do
     expect(page).to have_current_path candidate_interface_replace_course_choices_choose_path(@course_choice.id)
   end
 
+  def when_i_choose_that_i_do_not_know_where_i_want_to_apply
+    choose 'No, I need to find a course'
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_go_to_find_page
+    expect(page).to have_current_path candidate_interface_replace_go_to_find_path(@course_choice.id)
+  end
+
+  def when_i_click_back
+    click_link 'Back'
+  end
+
   def when_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
     click_button 'Continue'
@@ -109,11 +129,15 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_address
-    expect(page).to have_content(@site.name_and_address )
+    expect(page).to have_content(@site.name_and_address)
   end
 
   def and_i_choose_a_location
     choose @site.address_line1
     click_button 'Continue'
+  end
+
+  def then_i_see_the_confirm_replacement_page
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice(@course_choice.id, @full_time_course_option.id)
   end
 end
