@@ -161,7 +161,6 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     expect(page).to have_content 'Please select an option to update your course choice.'
   end
 
-
   def and_i_choose_to_add_a_new_location
     choose 'Choose a different location'
   end

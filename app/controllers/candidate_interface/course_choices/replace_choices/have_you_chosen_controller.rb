@@ -3,6 +3,7 @@ module CandidateInterface
     module ReplaceChoices
       class HaveYouChosenController < BaseController
         def ask
+          @course_choice = current_application.application_choices.find(params[:id])
           @choice_form = CandidateInterface::CourseChosenForm.new
         end
 
@@ -12,13 +13,15 @@ module CandidateInterface
           render :ask and return unless @choice_form.valid?
 
           if @choice_form.chosen_a_course?
-            redirect_to candidate_interface_relace_course_choices_provider_path
+            redirect_to candidate_interface_replace_course_choices_provider_path(@course_choice.id)
           else
             redirect_to candidate_interface_replace_go_to_find_path(@course_choice.id)
           end
         end
 
-        def go_to_find; end
+        def go_to_find
+          @course_choice = current_application.application_choices.find(params[:id])
+        end
 
       private
 
