@@ -211,6 +211,9 @@ Rails.application.routes.draw do
         get '/find-a-course' => 'course_choices/have_you_chosen#go_to_find', as: :go_to_find
         get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
+        get '/replace/:id/choose' => 'course_choices/replace_choices/have_you_chosen#ask', as: :replace_course_choices_choose
+        post '/replace/:id/choose' => 'course_choices/replace_choices/have_you_chosen#decide'
+
         get '/replace' => 'course_choices/replace_choices/base#pick_choice_to_replace', as: :replace_course_choices
         post '/replace' => 'course_choices/replace_choices/base#picked_choice'
         get '/replace/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
