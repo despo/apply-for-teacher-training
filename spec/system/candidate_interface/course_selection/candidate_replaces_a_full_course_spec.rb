@@ -23,6 +23,9 @@ RSpec.feature 'Selecting a course' do
     when_i_choose_that_i_know_where_i_want_to_apply
     then_i_see_the_pick_replacment_provider_page
 
+    when_i_choose_a_provider_with_no_courses_on_ucas
+    then_i_see_the_replace_course_choices_ucas_no_courses_page
+
     when_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
 
@@ -34,6 +37,12 @@ RSpec.feature 'Selecting a course' do
     then_i_see_the_address
     and_i_choose_a_location
     then_i_see_the_confirm_replacement_page
+
+    # when_i_choose_a_course_on_ucas_but_not_on_apply
+    # then_i_see_the_replace_course_choices_ucas_with_course_page
+    #
+    # when_i_click_back
+    # then_i_see_the_pick_replacment_provider_page
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -60,6 +69,9 @@ RSpec.feature 'Selecting a course' do
     @full_time_course_option = create(:course_option, :full_time, site: @site, course: @course)
     create(:course_option, :part_time, site: @site, course: @course)
     create(:course_option, site: @site2, course: @course)
+    @provider_with_no_courses = create(:provider)
+    @provider_with_a_course_on_ucas = create(:provider)
+    @course_on_ucas = create(:course, exposed_in_find: true, open_on_apply: false, provider: @provider_with_a_course_on_ucas)
   end
 
   def when_i_arrive_at_my_application_dashboard
@@ -85,6 +97,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_go_to_find_page
+    expect(page).to have_content t('page_titles.find_a_course')
     expect(page).to have_current_path candidate_interface_replace_go_to_find_path(@course_choice.id)
   end
 
@@ -98,7 +111,17 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_pick_replacment_provider_page
-    expect(page).to have_current_path candidate_interface_relace_course_choices_provider_path(@course_choice.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choices_provider_path(@course_choice.id)
+  end
+
+  def when_i_choose_a_provider_with_no_courses_on_ucas
+    select @provider_with_no_courses.name_and_code
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_replace_course_choices_ucas_no_courses_page
+    expect(page).to have_content t('page_titles.apply_to_provider_on_ucas')
+    expect(page).to have_current_path candidate_interface_replace_course_choices_ucas_no_courses_path(@course_choice.id)
   end
 
   def when_i_choose_a_provider
@@ -125,7 +148,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_pick_replacment_study_mode_page
-    expect(page).to have_current_path candidate_interface_pick_replacement_provider_path
+    expect(page).to have_current_path candidate_interface_pick_replacement_provider_path(@course_choice.id)
   end
 
   def then_i_see_the_address
@@ -140,4 +163,14 @@ RSpec.feature 'Selecting a course' do
   def then_i_see_the_confirm_replacement_page
     expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice(@course_choice.id, @full_time_course_option.id)
   end
+
+  # def when_i_choose_a_course_on_ucas_but_not_on_apply
+  #   select @course_on_ucas.name_and_code
+  #   click_button 'Continue'
+  # end
+  #
+  # def then_i_see_the_replace_course_choices_ucas_with_course_page
+  #   expect(page).to have_content t('page_titles.apply_to_course_on_ucas')
+  #   expect(page).to have_current_path then_i_see_the_replace_course_choices_ucas_with_course_page(@course_choice.id)
+  # end
 end
