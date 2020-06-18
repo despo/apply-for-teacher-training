@@ -5,6 +5,7 @@ module CandidateInterface
         def replace_location
           @course_choice = current_application.application_choices.find(params['id'])
           @pick_site = create_pick_site_form(@course_choice, @course_choice.course_option.id)
+          @study_mode = params['study_mode']
         end
 
         def validate_location

@@ -23,17 +23,22 @@ module CandidateInterface
           render :new and return unless @pick_course.valid?
 
           if !@pick_course.open_on_apply?
-            redirect_to candidate_interface_replace_course_choices_ucas_with_course_path(@course_choice.id, @pick_course.provider_id, @pick_course.course_id)
+            redirect_to candidate_interface_replace_course_choices_ucas_with_course_path(
+              @course_choice.id,
+              @pick_course.provider_id,
+              @pick_course.course_id,
+            )
           elsif @pick_course.full?
-            redirect_to candidate_interface_course_choices_full_path(
+            redirect_to candidate_interface_replace_course_choices_full_path(
+              @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
             )
           elsif @pick_course.both_study_modes_available?
-            redirect_to candidate_interface_course_choices_study_mode_path(
+            redirect_to candidate_interface_replace_course_choices_study_mode_path(
+              @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
-              course_choice_id: params[:course_choice_id],
             )
           elsif @pick_course.single_site?
             course_option = CourseOption.where(course_id: @pick_course.course.id).first
@@ -45,16 +50,17 @@ module CandidateInterface
               self,
             ).call
           else
-            redirect_to candidate_interface_course_choices_site_path(
+            redirect_to candidate_interface_replace_course_choices_new_location_path(
+              @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
               @pick_course.study_mode,
-              course_choice_id: params[:course_choice_id],
             )
           end
         end
 
         def full
+          @course_choice = current_application.application_choices.find(params['id'])
           @course = Course.find(params[:course_id])
         end
       end
