@@ -41,6 +41,12 @@ RSpec.feature 'Selecting a course' do
     when_i_click_back
     then_i_see_the_pick_replacment_course_page
 
+    when_i_choose_a_course_that_is_full
+    then_i_see_the_replace_course_choice_full_page
+
+    when_i_click_back
+    then_i_see_the_pick_replacment_course_page
+
     when_i_choose_a_course
     then_i_see_the_pick_replacement_study_mode_page
 
@@ -68,7 +74,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_there_are_course_options
     @provider = create(:provider)
-    @course = create(:course, provider: @provider, exposed_in_find: true, open_on_apply: true)
+    @course = create(:course, provider: @provider, exposed_in_find: true, open_on_apply: true, study_mode: 'full_time_or_part_time')
     @site = create(:site, provider: @provider)
     @site2 = create(:site, provider: @provider)
     @full_time_course_option = create(:course_option, :full_time, site: @site, course: @course)
@@ -76,6 +82,8 @@ RSpec.feature 'Selecting a course' do
     create(:course_option, site: @site2, course: @course)
     @provider_with_no_courses = create(:provider)
     @course_on_ucas = create(:course, exposed_in_find: true, open_on_apply: false, provider: @provider)
+    @full_course = create(:course, provider: @provider, exposed_in_find: true, open_on_apply: true)
+    create(:course_option, :no_vacancies, course: @course)
   end
 
   def when_i_arrive_at_my_application_dashboard
@@ -160,8 +168,18 @@ RSpec.feature 'Selecting a course' do
     expect(page).to have_current_path candidate_interface_replace_course_choices_course_path(@course_choice.id, @provider.id)
   end
 
+  def when_i_choose_a_course_that_is_full
+    choose @full_course.name_and_code
+    click_button 'Continue'
+  end
+
+  def then_i_see_the_replace_course_choice_full_page
+    expect(page).to have_content t('page_titles.full_course')
+    expect(page).to have_current_path candidate_interface_replace_course_choices_full_path(@course_choice.id, @provider.id, @full_course.id)
+  end
+
   def when_i_choose_a_course
-    choose @course.name
+    choose @course.name_and_code
     click_button 'Continue'
   end
 
