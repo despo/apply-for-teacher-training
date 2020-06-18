@@ -242,6 +242,13 @@ Rails.application.routes.draw do
 
           get '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#new', as: :replace_course_choices_course
           post '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#create'
+          get '/:id/provider/:provider_id/courses/:course_id/full' => 'course_choices/replace_choices/course_selection#full', as: :replace_course_choices_full
+
+          get '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#new', as: :replace_course_choices_study_mode
+          post '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#create'
+
+          get '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/site_selection#new', as: :replace_course_choices_new_location
+          post '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/site_selection#create'
         end
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
