@@ -19,7 +19,7 @@ module CandidateInterface
             redirect_to candidate_interface_application_complete_path
           else
             flash[:warning] = 'Please select a new location.'
-            redirect_to candidate_interface_replace_course_choice_location_path(@course_choice.id)
+            redirect_to candidate_interface_replace_course_choice_new_location_path(@course_choice.id)
           end
         end
       end
