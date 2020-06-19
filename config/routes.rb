@@ -246,7 +246,6 @@ Rails.application.routes.draw do
 
         get '/:id' => 'course_choices/replace_choices/decision#choose_action', as: :replace_course_choice
         post '/:id' => 'course_choices/replace_choices/decision#route_action'
-        get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
 
         get '/:id/location' => 'course_choices/replace_choices/site_selection#update', as: :replace_course_choice_update_location
         post '/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :replace_course_choice_validate_location
