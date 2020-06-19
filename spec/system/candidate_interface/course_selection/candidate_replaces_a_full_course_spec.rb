@@ -55,6 +55,16 @@ RSpec.feature 'Selecting a course' do
 
     when_i_choose_a_location
     then_i_see_the_confirm_replacement_page
+
+    when_i_click_back
+    then_i_see_the_replace_location_page
+
+    when_i_choose_a_location
+    and_i_click_replace_course_choice
+    then_i_arrive_at_my_application_dashboard
+    and_i_am_told_my_application_has_been_updated
+    and_i_see_my_new_course_choice
+    and_i_cannot_see_my_old_course_choice
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active
@@ -201,11 +211,32 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_i_choose_a_location
-    choose @site.address_line1
+    choose @site.name
     click_button 'Continue'
   end
 
   def then_i_see_the_confirm_replacement_page
-    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice(@course_choice.id, @full_time_course_option.id)
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(@course_choice.id, @full_time_course_option.id)
+  end
+
+  def and_i_click_replace_course_choice
+    click_link 'Replace course choice'
+  end
+
+  def then_i_arrive_at_my_application_dashboard
+    expect(page).to have_current_path candidate_interface_application_complete_path
+  end
+
+  def and_i_am_told_my_application_has_been_updated
+    expect(page).to have_content 'Your application has been successfully updated.'
+  end
+
+  def and_i_see_my_new_course_choice
+    expect(page).to have_content @course.name
+    expect(page).to have_content @site.name_and_address
+  end
+
+  def and_i_cannot_see_my_old_course_choice
+    expect(page).not_to have_content @course_choice.site.name_and_address
   end
 end
