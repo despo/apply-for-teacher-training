@@ -11,7 +11,7 @@ module CandidateInterface
               course_id: params.fetch(:course_id),
               study_mode: params.fetch(:study_mode),
             )
-          end  
+          end
         end
 
         def update
@@ -37,7 +37,7 @@ module CandidateInterface
             redirect_to candidate_interface_confirm_replacement_course_choice_path(@course_choice.id, @replacement_course_option_id)
           else
             flash[:warning] = 'Please select a new location.'
-            redirect_to candidate_interface_replace_course_choice_update_location_path(@course_choice.id)
+            redirect_to candidate_interface_replace_course_choices_update_location_path(@course_choice.id)
           end
         end
 

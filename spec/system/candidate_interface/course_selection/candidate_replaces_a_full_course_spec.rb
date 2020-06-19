@@ -203,7 +203,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_replace_location_page
-    expect(page).to have_current_path candidate_interface_replace_course_choices_location_path(@course_choice.id, @provider.id, @course.id, 'full_time')
+    expect(page).to have_current_path candidate_interface_replace_course_choices_location_path(@course_choice.id, @provider.id, @course.id, @full_time_course_option.study_mode)
   end
 
   def and_i_see_the_address
@@ -216,7 +216,13 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_confirm_replacement_page
-    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(@course_choice.id, @full_time_course_option.id)
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(
+      @course_choice.id,
+      @full_time_course_option.id,
+      provider_id: @provider.id,
+      course_id: @course.id,
+      study_mode: @full_time_course_option.study_mode,
+    )
   end
 
   def and_i_click_replace_course_choice
@@ -233,7 +239,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_see_my_new_course_choice
     expect(page).to have_content @course.name
-    expect(page).to have_content @site.name_and_address
+    expect(page).to have_content @site.name
   end
 
   def and_i_cannot_see_my_old_course_choice
