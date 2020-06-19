@@ -50,7 +50,7 @@ module CandidateInterface
               self,
             ).call
           else
-            redirect_to candidate_interface_replace_course_choices_new_location_path(
+            redirect_to candidate_interface_replace_course_choices_location_path(
               @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,

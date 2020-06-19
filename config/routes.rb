@@ -223,7 +223,8 @@ Rails.application.routes.draw do
           post '/:id' => 'course_choices/replace_choices/decision#route_action'
           get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
 
-          get '/:id/location' => 'course_choices/replace_choices/site_selection#replace_location', as: :replace_course_choice_new_location
+          get '/:id/provider/:provider_id/course/:course_id/:study_mode/location' => 'course_choices/replace_choices/site_selection#new', as: :replace_course_choices_location
+          get '/:id/location' => 'course_choices/replace_choices/site_selection#update', as: :replace_course_choice_update_location
           post '/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :validate_new_course_choice_location
 
           get '/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
@@ -248,7 +249,6 @@ Rails.application.routes.draw do
           get '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#new', as: :replace_course_choices_study_mode
           post '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#create'
 
-          get '/:id/provider/:provider_id/course/:course_id/:study_mode/location' => 'course_choices/replace_choices/site_selection#new', as: :replace_course_choices_location
           post '/:id/provider/:provider_id/course/:course_id/:study_mode/location' => 'course_choices/replace_choices/site_selection#create'
         end
 
