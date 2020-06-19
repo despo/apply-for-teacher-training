@@ -24,7 +24,7 @@ RSpec.feature 'Selecting a course' do
     then_i_see_the_pick_replacment_provider_page
 
     when_i_choose_a_provider_with_no_courses_on_ucas
-    then_i_see_the_replace_course_choices_ucas_no_courses_page
+    then_i_see_the_replace_course_choice_ucas_no_courses_page
 
     when_i_click_back
     then_i_see_the_pick_replacment_provider_page
@@ -36,7 +36,7 @@ RSpec.feature 'Selecting a course' do
     then_i_should_see_an_error
 
     when_i_choose_a_course_on_ucas_but_not_on_apply
-    then_i_see_the_replace_course_choices_ucas_with_course_page
+    then_i_see_the_replace_course_choice_ucas_with_course_page
 
     when_i_click_back
     then_i_see_the_pick_replacment_course_page
@@ -133,7 +133,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_pick_replacment_provider_page
-    expect(page).to have_current_path candidate_interface_replace_course_choices_provider_path(@course_choice.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_provider_path(@course_choice.id)
   end
 
   def when_i_choose_a_provider_with_no_courses_on_ucas
@@ -141,9 +141,9 @@ RSpec.feature 'Selecting a course' do
     click_button 'Continue'
   end
 
-  def then_i_see_the_replace_course_choices_ucas_no_courses_page
+  def then_i_see_the_replace_course_choice_ucas_no_courses_page
     expect(page).to have_content t('page_titles.apply_to_provider_on_ucas')
-    expect(page).to have_current_path candidate_interface_replace_course_choices_ucas_no_courses_path(@course_choice.id, @provider_with_no_courses.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_ucas_no_courses_path(@course_choice.id, @provider_with_no_courses.id)
   end
 
   def when_i_choose_a_provider
@@ -169,13 +169,13 @@ RSpec.feature 'Selecting a course' do
     click_button 'Continue'
   end
 
-  def then_i_see_the_replace_course_choices_ucas_with_course_page
+  def then_i_see_the_replace_course_choice_ucas_with_course_page
     expect(page).to have_content t('page_titles.apply_to_course_on_ucas')
-    expect(page).to have_current_path candidate_interface_replace_course_choices_ucas_with_course_path(@course_choice.id, @provider.id, @course_on_ucas.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_ucas_with_course_path(@course_choice.id, @provider.id, @course_on_ucas.id)
   end
 
   def then_i_see_the_pick_replacment_course_page
-    expect(page).to have_current_path candidate_interface_replace_course_choices_course_path(@course_choice.id, @provider.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_course_path(@course_choice.id, @provider.id)
   end
 
   def when_i_choose_a_course_that_is_full
@@ -185,7 +185,7 @@ RSpec.feature 'Selecting a course' do
 
   def then_i_see_the_replace_course_choice_full_page
     expect(page).to have_content t('page_titles.full_course')
-    expect(page).to have_current_path candidate_interface_replace_course_choices_full_path(@course_choice.id, @provider.id, @full_course.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_full_path(@course_choice.id, @provider.id, @full_course.id)
   end
 
   def when_i_choose_a_course
@@ -194,7 +194,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_pick_replacement_study_mode_page
-    expect(page).to have_current_path candidate_interface_replace_course_choices_study_mode_path(@course_choice.id, @provider.id, @course.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_study_mode_path(@course_choice.id, @provider.id, @course.id)
   end
 
   def when_i_choose_full_time
@@ -203,7 +203,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_replace_location_page
-    expect(page).to have_current_path candidate_interface_replace_course_choices_location_path(@course_choice.id, @provider.id, @course.id, @full_time_course_option.study_mode)
+    expect(page).to have_current_path candidate_interface_replace_course_choice_location_path(@course_choice.id, @provider.id, @course.id, @full_time_course_option.study_mode)
   end
 
   def and_i_see_the_address

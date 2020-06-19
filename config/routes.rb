@@ -223,9 +223,9 @@ Rails.application.routes.draw do
           post '/:id' => 'course_choices/replace_choices/decision#route_action'
           get '/replace/:id/contact-support' => 'course_choices/replace_choices/decision#contact_support', as: :replace_course_choice_contact_support
 
-          get '/:id/provider/:provider_id/course/:course_id/:study_mode/location' => 'course_choices/replace_choices/site_selection#new', as: :replace_course_choices_location
-          get '/:id/location' => 'course_choices/replace_choices/site_selection#update', as: :replace_course_choices_update_location
-          post '/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :replace_course_choices_validate_location
+          get '/:id/provider/:provider_id/course/:course_id/:study_mode/location' => 'course_choices/replace_choices/site_selection#new', as: :replace_course_choice_location
+          get '/:id/location' => 'course_choices/replace_choices/site_selection#update', as: :replace_course_choice_update_location
+          post '/:id/location' => 'course_choices/replace_choices/site_selection#validate_location', as: :replace_course_choice_validate_location
 
           get '/:id/confirm/:course_option_id' => 'course_choices/replace_choices/review#confirm_choice', as: :confirm_replacement_course_choice
           get '/:id/update/:course_option_id' => 'course_choices/replace_choices/review#update_choice', as: :update_replacement_course_choice
@@ -236,17 +236,17 @@ Rails.application.routes.draw do
           get '/:id/confirm_withdraw' => 'course_choices/replace_choices/cancel#confirm_withdraw', as: :confirm_withdraw_full_course_choice
           post '/:id/withdraw' => 'course_choices/replace_choices/cancel#withdraw', as: :withdraw_full_course_choice
 
-          get '/:id/provider' => 'course_choices/replace_choices/provider_selection#new', as: :replace_course_choices_provider
+          get '/:id/provider' => 'course_choices/replace_choices/provider_selection#new', as: :replace_course_choice_provider
           post '/:id/provider' => 'course_choices/replace_choices/provider_selection#create'
 
-          get '/:id/apply-on-ucas/provider/:provider_id' => 'course_choices/replace_choices/ucas#no_courses', as: :replace_course_choices_ucas_no_courses
-          get '/:id/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/replace_choices/ucas#with_course', as: :replace_course_choices_ucas_with_course
+          get '/:id/apply-on-ucas/provider/:provider_id' => 'course_choices/replace_choices/ucas#no_courses', as: :replace_course_choice_ucas_no_courses
+          get '/:id/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/replace_choices/ucas#with_course', as: :replace_course_choice_ucas_with_course
 
-          get '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#new', as: :replace_course_choices_course
+          get '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#new', as: :replace_course_choice_course
           post '/:id/provider/:provider_id/course' => 'course_choices/replace_choices/course_selection#create'
-          get '/:id/provider/:provider_id/courses/:course_id/full' => 'course_choices/replace_choices/course_selection#full', as: :replace_course_choices_full
+          get '/:id/provider/:provider_id/courses/:course_id/full' => 'course_choices/replace_choices/course_selection#full', as: :replace_course_choice_full
 
-          get '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#new', as: :replace_course_choices_study_mode
+          get '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#new', as: :replace_course_choice_study_mode
           post '/:id/provider/:provider_id/course/:course_id/study_mode' => 'course_choices/replace_choices/study_mode_selection#create'
         end
 

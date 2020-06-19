@@ -23,19 +23,19 @@ module CandidateInterface
           render :new and return unless @pick_course.valid?
 
           if !@pick_course.open_on_apply?
-            redirect_to candidate_interface_replace_course_choices_ucas_with_course_path(
+            redirect_to candidate_interface_replace_course_choice_ucas_with_course_path(
               @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
             )
           elsif @pick_course.full?
-            redirect_to candidate_interface_replace_course_choices_full_path(
+            redirect_to candidate_interface_replace_course_choice_full_path(
               @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
             )
           elsif @pick_course.both_study_modes_available?
-            redirect_to candidate_interface_replace_course_choices_study_mode_path(
+            redirect_to candidate_interface_replace_course_choice_study_mode_path(
               @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,
@@ -50,7 +50,7 @@ module CandidateInterface
               self,
             ).call
           else
-            redirect_to candidate_interface_replace_course_choices_location_path(
+            redirect_to candidate_interface_replace_course_choice_location_path(
               @course_choice.id,
               @pick_course.provider_id,
               @pick_course.course_id,

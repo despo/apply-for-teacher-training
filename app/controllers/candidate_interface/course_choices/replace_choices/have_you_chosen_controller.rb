@@ -13,7 +13,7 @@ module CandidateInterface
           render :ask and return unless @choice_form.valid?
 
           if @choice_form.chosen_a_course?
-            redirect_to candidate_interface_replace_course_choices_provider_path(@course_choice.id)
+            redirect_to candidate_interface_replace_course_choice_provider_path(@course_choice.id)
           else
             redirect_to candidate_interface_replace_go_to_find_path(@course_choice.id)
           end
