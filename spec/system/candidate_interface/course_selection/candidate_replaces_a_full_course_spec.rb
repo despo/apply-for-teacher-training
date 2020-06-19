@@ -51,7 +51,7 @@ RSpec.feature 'Selecting a course' do
     then_i_see_the_pick_replacement_study_mode_page
 
     when_i_choose_full_time
-    then_i_see_the_replace_location_path
+    then_i_see_the_replace_location_page
 
     when_i_choose_a_location
     then_i_see_the_confirm_replacement_page
@@ -193,7 +193,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_the_replace_location_page
-    expect(page).to have_current_path candidate_interface_pick_replacement_location_path(@course_choice.id, @provider.id, @course.id)
+    expect(page).to have_current_path candidate_interface_replace_course_choices_location_path(@course_choice.id, @provider.id, @course.id, 'full_time')
   end
 
   def and_i_see_the_address
