@@ -74,7 +74,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
   def then_i_see_options_to_make_an_offer(provider_option: false)
     expect(page).to have_content 'Make an offer'
     expect(page).to have_content 'Make an offer but change course'
-    expect(page).to have_content 'Make an offer but change location'
+    expect(page).to have_content 'Make an offer but change main training location'
 
     if provider_option
       expect(page).to have_content 'Make an offer but change training provider'
