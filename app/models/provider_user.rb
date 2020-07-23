@@ -44,10 +44,6 @@ class ProviderUser < ActiveRecord::Base
     @authorisation ||= ProviderAuthorisation.new(actor: self)
   end
 
-  def can_manage_organisations?
-    provider_permissions.exists?(manage_organisations: true)
-  end
-
 private
 
   def downcase_email_address
