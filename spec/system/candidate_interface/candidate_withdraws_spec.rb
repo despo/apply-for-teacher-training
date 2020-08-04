@@ -17,7 +17,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
-    and_the_covid_19_feature_flag_is_on
     and_the_apply_again_flag_is_on
     and_i_have_multiple_application_choice_awaiting_provider_decision
 
@@ -35,7 +34,6 @@ RSpec.feature 'A candidate withdraws her application' do
     and_i_click_continue
     then_i_see_my_application_dashboard
     and_i_am_thanked_for_my_feedback
-    and_i_do_not_see_the_covid_19_guidance
 
     when_i_try_to_visit_the_withdraw_page
     then_i_see_the_page_not_found
@@ -51,10 +49,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def given_i_am_signed_in_as_a_candidate
     create_and_sign_in_candidate
-  end
-
-  def and_the_covid_19_feature_flag_is_on
-    FeatureFlag.activate('covid_19')
   end
 
   def and_the_apply_again_flag_is_on
@@ -99,10 +93,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def then_my_application_should_be_withdrawn
     and_my_application_should_be_withdrawn
-  end
-
-  def and_i_do_not_see_the_covid_19_guidance
-    expect(page).not_to have_content('Coronavirus (COVID-19)')
   end
 
   def and_a_slack_notification_is_sent

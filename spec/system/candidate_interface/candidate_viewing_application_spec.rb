@@ -56,10 +56,6 @@ RSpec.feature 'Viewing their new application' do
     expect(page).not_to have_content 'There might be a delay in processing your application due to the impact of coronavirus (COVID-19)'
   end
 
-  def given_covid19_feature_flag_is_active
-    FeatureFlag.activate('covid_19')
-  end
-
   def then_i_should_see_the_covid19_banner
     expect(page).to have_content 'There might be a delay in processing your application due to the impact of coronavirus (COVID-19)'
   end
