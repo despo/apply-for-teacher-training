@@ -16,8 +16,7 @@ RSpec.feature 'Provider changes an offer' do
     and_i_view_an_offered_application
     then_i_cannot_change_the_offer
 
-    when_change_response_feature_is_activated
-    and_i_click_on_change_provider
+    when_i_click_on_change_provider
     then_i_see_all_my_providers
 
     when_i_click_on_continue
@@ -76,10 +75,6 @@ RSpec.feature 'Provider changes an offer' do
     create(:course_option, :part_time, course: @old_course)
   end
 
-  def when_change_response_feature_is_activated
-    FeatureFlag.activate('provider_change_response')
-  end
-
   def then_i_cannot_change_the_offer
     first('a', text: 'Change', count: 0)
   end
@@ -90,7 +85,7 @@ RSpec.feature 'Provider changes an offer' do
     )
   end
 
-  def and_i_click_on_change_provider
+  def when_i_click_on_change_provider
     visit provider_interface_application_choice_path(@application_offered.id)
     click_on 'Change training provider'
   end
