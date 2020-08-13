@@ -63,6 +63,32 @@
             ) %>
           </dd>
         </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Which organisations can view diversity information?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <ul class="govuk-list view-diversity-information">
+              <% provider_types_with_enabled_permissions = @wizard.permissions_for_relationship(permissions_model.id).fetch('view_diversity_information', []) %>
+              <% if provider_types_with_enabled_permissions.include?('training') %>
+                <li><%= render CheckIcon.new %> <%= permissions_model.training_provider.name %></li>
+              <% end %>
+              <% if provider_types_with_enabled_permissions.include?('ratifying') %>
+                <li><%= render CheckIcon.new %> <%= permissions_model.ratifying_provider.name %></li>
+              <% end %>
+            </ul>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <%= govuk_link_to(
+              'Change',
+              provider_interface_setup_provider_relationship_permissions_path(
+                permissions_model,
+                anchor: "provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions-#{permissions_model.id}-view-diversity-information-training-field",
+                checking_answers: true,
+              ),
+            ) %>
+          </dd>
+        </div>
       </dl>
     <% end %>
 
