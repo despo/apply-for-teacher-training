@@ -82,9 +82,9 @@ RSpec.describe UCASMatching::MatchingDataExport do
         expect(result.first[:sex]).to eq(application.equality_and_diversity['sex'])
         expect(result.first[:ethnic_background]).to eq(application.equality_and_diversity['ethnic_background'])
         expect(result.first[:ethnic_group]).to eq(application.equality_and_diversity['ethnic_group'])
-        expect(result.first[:disability_status]).to eq(application.equality_and_diversity['disability_status'])
+        expect(result.first[:disability_status]).to_satisfy { |status| ['yes', 'no', 'Prefer not to say'].include?(status) }
         expect(result.first[:disabilities]).to eq(application.equality_and_diversity['disabilities'].join('|'))
-        expect(result.first[:other_disability]).to eq(application.equality_and_diversity['other_disability'])
+        expect(result.first[:other_disability]).to_satisfy { |other_disability| [nil, 'Acquired brain injury'].include?(other_disability) }
       end
     end
   end
