@@ -94,7 +94,7 @@ module UCASMatching
         course_name: application_choice.course.name,
         course_code: application_choice.course.code,
         sex: form.equality_and_diversity.try(:[], 'sex'),
-        disability_status: form.equality_and_diversity.try(:[], 'disability_status'),
+        disability_status: disability_status,
         disabilities: concatenate(form.equality_and_diversity.try(:[], 'disabilities')),
         other_disability: form.equality_and_diversity.try(:[], 'other_disability'),
         ethnic_group: form.equality_and_diversity.try(:[], 'ethnic_group'),
@@ -104,6 +104,12 @@ module UCASMatching
 
     def concatenate(array)
       array.to_a.join('|')
+    end
+
+    def disability_status
+      return 'Prefer not to say' if form.equality_and_diversity['disabilities'].include?('Prefer not to say')
+
+      form.equality_and_diversity['disabilities'].empty ? 'no' : 'yes'
     end
   end
 end
