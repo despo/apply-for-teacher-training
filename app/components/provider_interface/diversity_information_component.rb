@@ -15,7 +15,27 @@ module ProviderInterface
       'No information shared'
     end
 
+    def details
+      if [current_user_has_permission_to_view_diversity_information?, application_in_correct_state?].all?(false)
+        return 'This will become available to users with permissions to `view diversity information` when an offer has been accepted'
+      end
+
+      return 'You will be able to view this when an offer has been accepted.' if current_user_has_permission_to_view_diversity_information?
+
+      'This section is only available to users with permissions to `view diversity information`.' if application_in_correct_state?
+    end
   private
+
+    def application_in_correct_state?
+      %i[offer pending_conditions recruited withdrawn offer_withdrawn enrolled].map { |status|
+        application_choice.send("#{status}?")
+      }.any?
+    end
+
+    def current_user_has_permission_to_view_diversity_information?
+      current_provider_user.authorisation
+        .can_view_diversity_information?(course: application_choice.course)
+    end
 
     def diversity_information_declared?
       application_choice.application_form.equality_and_diversity_answers_provided?

@@ -1,1 +1,4 @@
   <p class="govuk-body"><%= message %></p>
+  <% unless message == 'No information shared' -%>
+    <p class="govuk-body"><%= details %></p>
+  <% end -%>
