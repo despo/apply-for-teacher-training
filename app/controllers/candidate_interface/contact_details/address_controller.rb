@@ -1,5 +1,12 @@
 module CandidateInterface
   class ContactDetails::AddressController < ContactDetails::BaseController
+
+    def new
+      @contact_details_form = ContactDetailsForm.build_from_application(
+        current_application,
+      )
+    end
+    
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
         current_application,
