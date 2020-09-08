@@ -24,7 +24,7 @@
 <%= render(CandidateInterface::PersonalDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error)) %>
 
 <h3 class="govuk-heading-m"><%= t('page_titles.contact_details') %></h3>
-<%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+<%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error)) %>
 
 <h3 class="govuk-heading-m"><%= t('page_titles.training_with_a_disability') %></h3>
 <%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
