@@ -43,7 +43,7 @@ module CandidateInterface
       elsif all_choices_withdrawn?
         I18n.t!('application_complete.dashboard.all_withdrawn')
       elsif all_applications_not_sent?
-        I18n.t!('application_complete.dashboard.application_not_sent', count: choice_count)
+        "#{'Course'.pluralize(choice_count)} you’ve applied to"
       elsif all_provider_decisions_made?
         I18n.t!('application_complete.dashboard.all_provider_decisions_made', count: choice_count)
       elsif any_offers?
