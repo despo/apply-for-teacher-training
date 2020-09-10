@@ -48,10 +48,6 @@ module CandidateInterface
         I18n.t!('application_complete.dashboard.all_provider_decisions_made', count: choice_count)
       elsif any_offers?
         I18n.t!('application_complete.dashboard.some_provider_decisions_made')
-      elsif any_awaiting_provider_decision?
-        "#{'Course'.pluralize(choice_count)} you’ve applied to"
-      elsif editable?
-        "#{'Course'.pluralize(choice_count)} you’ve applied to"
       else
         "#{'Course'.pluralize(choice_count)} you’ve applied to"
       end
