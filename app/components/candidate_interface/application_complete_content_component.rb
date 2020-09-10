@@ -37,17 +37,17 @@ module CandidateInterface
 
     def heading
       if any_recruited?
-        I18n.t!('application_complete.dashboard.recruited')
+        I18n.t!('application_complete.headings.recruited')
       elsif any_accepted_offer?
-        I18n.t!('application_complete.dashboard.accepted_offer')
+        I18n.t!('application_complete.headings.accepted_offer')
       elsif all_choices_withdrawn?
-        I18n.t!('application_complete.dashboard.all_withdrawn')
+        I18n.t!('application_complete.headings.all_withdrawn')
       elsif all_applications_not_sent?
         "#{'Course'.pluralize(choice_count)} you’ve applied to"
       elsif all_provider_decisions_made?
-        I18n.t!('application_complete.dashboard.all_provider_decisions_made', count: choice_count)
+        I18n.t!('application_complete.headings.all_provider_decisions_made', count: choice_count)
       elsif any_offers?
-        I18n.t!('application_complete.dashboard.some_provider_decisions_made')
+        I18n.t!('application_complete.headings.some_provider_decisions_made')
       else
         "#{'Course'.pluralize(choice_count)} you’ve applied to"
       end

@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.some_provider_decisions_made'))
+      expect(render_result.text).to include(t('application_complete.headings.some_provider_decisions_made'))
       expect(render_result.text).to include(t('application_complete.dashboard.providers_respond_by', date: '1 January 2020'))
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
+      expect(render_result.text).to include(t('application_complete.headings.all_provider_decisions_made', count: 2))
       expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
     end
 
@@ -78,7 +78,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
+      expect(render_result.text).to include(t('application_complete.headings.all_provider_decisions_made', count: 2))
       expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
     end
 
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.all_withdrawn', count: 1))
+      expect(render_result.text).to include(t('application_complete.headings.all_withdrawn', count: 1))
     end
 
     it 'renders when one offer has been withdrawn and one offered' do
@@ -104,7 +104,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
+      expect(render_result.text).to include(t('application_complete.headings.all_provider_decisions_made', count: 2))
     end
 
     it 'renders when the only offer has been rejected' do
@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 1))
+      expect(render_result.text).to include(t('application_complete.headings.all_provider_decisions_made', count: 1))
     end
   end
 
@@ -125,7 +125,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.accepted_offer'))
+      expect(render_result.text).to include(t('application_complete.headings.accepted_offer'))
     end
   end
 
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.recruited'))
+      expect(render_result.text).to include(t('application_complete.headings.recruited'))
     end
   end
 
