@@ -61,6 +61,17 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
   end
 
+  context 'when the application was rejected at the end of the cycle' do
+    it 'renders with a generic heading' do
+      stub_application_dates_with_form_uneditable
+      application_form = create_application_form_with_course_choices(statuses: %w[withdrawn application_not_sent])
+
+      render_result = render_inline(described_class.new(application_form: application_form))
+
+      expect(render_result.text).to include('Courses you’ve applied to')
+    end
+  end
+
   context 'when the application has all decisions from providers' do
     it 'renders with all providers have made a decision content if all offers' do
       stub_application_dates_with_form_uneditable
