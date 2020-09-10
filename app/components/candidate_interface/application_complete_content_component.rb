@@ -35,6 +35,28 @@ module CandidateInterface
       application_form.application_choices.size
     end
 
+    def heading
+      if any_recruited?
+        I18n.t!('application_complete.dashboard.recruited')
+      elsif any_accepted_offer?
+        I18n.t!('application_complete.dashboard.accepted_offer')
+      elsif all_choices_withdrawn?
+        I18n.t!('application_complete.dashboard.all_withdrawn')
+      elsif all_applications_not_sent?
+        I18n.t!('application_complete.dashboard.application_not_sent', count: choice_count)
+      elsif all_provider_decisions_made?
+        I18n.t!('application_complete.dashboard.all_provider_decisions_made', count: choice_count)
+      elsif any_offers?
+        I18n.t!('application_complete.dashboard.some_provider_decisions_made')
+      elsif any_awaiting_provider_decision?
+        "#{'Course'.pluralize(choice_count)} you’ve applied to"
+      elsif editable?
+        "#{'Course'.pluralize(choice_count)} you’ve applied to"
+      else
+        "#{'Course'.pluralize(choice_count)} you’ve applied to"
+      end
+    end
+
   private
 
     attr_reader :application_form
