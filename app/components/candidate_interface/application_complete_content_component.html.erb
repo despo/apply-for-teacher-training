@@ -14,8 +14,7 @@
 <% elsif all_provider_decisions_made? %>
   <% if any_offers? %>
     <p class="govuk-body">
-      You have <%= decline_by_default_remaining_days %> days (until <%= decline_by_default_date %>) to respond to any offers. If you
-      do not respond, your applications will be automatically withdrawn.
+      <%= t('application_complete.dashboard.candidate_respond_by', remaining_days: decline_by_default_remaining_days, date: decline_by_default_date) %>
     </p>
   <% end %>
 <% elsif any_offers? %>
