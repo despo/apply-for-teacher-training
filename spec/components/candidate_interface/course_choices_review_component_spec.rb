@@ -375,6 +375,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when a course choice has been deferred' do
+    it 'renders component with the correct values' do
+      application_form = create_application_form_with_course_choices(statuses: %w[offer_deferred])
+
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Offer deferred')
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Date course starts')
+    end
+  end
+
   def create_application_form_with_course_choices(statuses:)
     application_form = create(:application_form)
 
