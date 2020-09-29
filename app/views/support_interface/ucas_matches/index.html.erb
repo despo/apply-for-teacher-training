@@ -1,5 +1,11 @@
 <%= render 'support_interface/candidates/candidates_navigation', title: 'UCAS matches' %>
 
+<h2 class='govuk-heading-l'>Statistics</h2>
+<p class='govuk-body'>
+  <%= render SupportInterface::UCASMatchesStatisticsComponent.new(@matches) %>
+</p>
+
+<h2 class='govuk-heading-l'>UCAS matches</h2>
 <table class='govuk-table'>
   <thead class='govuk-table__head'>
     <tr class='govuk-table__row'>

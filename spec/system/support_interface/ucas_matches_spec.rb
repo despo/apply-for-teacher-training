@@ -11,6 +11,7 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_go_to_ucas_matches_page
     then_i_should_see_list_of_ucas_matches
+    and_i_should_see_ucas_matches_statistics
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate
     then_i_should_see_ucas_match_summary
@@ -61,6 +62,14 @@ RSpec.feature 'See UCAS matches' do
   def then_i_should_see_list_of_ucas_matches
     expect(page).to have_content 'New match'
     expect(page).to have_content @candidate.email_address
+  end
+
+  def and_i_should_see_ucas_matches_statistics
+    expect(page).to have_content 'Statistics'
+    expect(page).to have_content '1 candidates on Apply in this cycle'
+    expect(page).to have_content '1 (100%) candidates matched with UCAS, of which'
+    expect(page).to have_content '0 (0% of candidates on Apply) have accepted Apply offers and have unwithdrawn UCAS application'
+    expect(page).to have_content '1 (100% of candidates on Apply) have applied for the same course on both services'
   end
 
   def when_i_follow_the_link_to_ucas_match_for_a_candidate
