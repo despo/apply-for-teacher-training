@@ -66,6 +66,12 @@ RSpec.describe SupportInterface::UCASMatchesStatisticsComponent do
     expect(result.css('li')[1].text).to include('3 (75%) candidates matched with UCAS, of which')
   end
 
+  it 'renders number of candidates that have accepted Apply offers and have unwithdrawn UCAS application' do
+    result = render_inline(described_class.new(ucas_matches))
+
+    expect(result.css('li')[2].text).to include('1 (25% of candidates on Apply) have accepted Apply offers and have unwithdrawn UCAS application')
+  end
+
   it 'renders number of candidates that have applied for the same course on both services' do
     result = render_inline(described_class.new(ucas_matches))
 

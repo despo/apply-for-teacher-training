@@ -17,6 +17,24 @@ module SupportInterface
       "#{count} (#{formated_percentage(count, candidates_on_apply_count)})"
     end
 
+    def accepted_on_apply_unwithdrawn_from_ucas
+      candidate_ids = []
+      @ucas_matches.map do |match|
+        accepted_on_apply = []
+        unwithdrawn_from_ucas = []
+        ucas_matched_applications(match).each do |matched_application|
+          accepted_on_apply << true if matched_application.accepted_on_apply?
+          unwithdrawn_from_ucas << true if matched_application.unwithdrawn_from_ucas?
+          break if accepted_on_apply.any? && unwithdrawn_from_ucas.any?
+        end
+
+        candidate_ids << match.candidate.id if accepted_on_apply.any? && unwithdrawn_from_ucas.any?
+      end
+      count = candidate_ids.uniq.compact.count
+
+      "#{count} (#{formated_percentage(count, candidates_on_apply_count)} of candidates on Apply)"
+    end
+
     def applied_for_the_same_course_on_both_services
       candidate_ids = @ucas_matches.map(&:matching_data).flatten.map do |data|
         data['Apply candidate ID'] if data['Scheme'] == 'B'
@@ -27,6 +45,12 @@ module SupportInterface
     end
 
   private
+
+    def ucas_matched_applications(match)
+      match.matching_data.map do |data|
+        UCASMatchedApplication.new(data)
+      end
+    end
 
     def formated_percentage(count, total)
       percentage = count.percent_of(total)

@@ -34,6 +34,8 @@ class UCASMatchedApplication
   end
 
   def mapped_ucas_status
+    return if dfe_scheme?
+
     if @matching_data['Rejects'] == '1'
       'rejected'
     elsif @matching_data['Withdrawns'] == '1'
@@ -45,5 +47,15 @@ class UCASMatchedApplication
     else
       'awaiting_provider_decision'
     end
+  end
+
+  def accepted_on_apply?
+    ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
+  end
+
+  def unwithdrawn_from_ucas?
+    return false if dfe_scheme?
+
+    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(mapped_ucas_status)
   end
 end
