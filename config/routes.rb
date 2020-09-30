@@ -399,6 +399,9 @@ Rails.application.routes.draw do
 
         get '/name/:id' => 'decoupled_references#name', as: :decoupled_references_name
         post '/name/:id' => 'decoupled_references#update_name', as: :update_decoupled_references_name
+
+        get '/name/:id' => 'decoupled_references#email', as: :decoupled_references_email
+
       end
 
       scope '/new-referee' do
