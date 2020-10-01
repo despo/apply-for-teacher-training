@@ -14,7 +14,7 @@
       </h1>
 
 
-      <%= f.govuk_text_area :relationship, label: { text: '' }, hint_text: t("application_form.referees.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 %>
+      <%= f.govuk_text_area :relationship, label: { text: '' }, hint_text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 %>
 
       <%= f.govuk_submit 'Save and continue' %>
     <% end %>

@@ -346,6 +346,14 @@ en:
       review:
         button: Continue
         completed_checkbox: I have completed this section
+    references:
+      relationship:
+        label: What is your relationship to this referee and how long have you known them?
+        hint_text:
+          academic: 'For example: a university tutor.'
+          professional: 'For example: a manager.'
+          school_based: 'For example: a colleague from a school where you did experience.'
+          character: 'For example: a mentor, or someone you know from volunteering.'
     referees:
       add_referee: Add referee
       add_second_referee: Add another referee
