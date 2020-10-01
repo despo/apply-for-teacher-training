@@ -400,8 +400,10 @@ Rails.application.routes.draw do
         get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_new_name
         post '/name/:id' => 'decoupled_references/name#create', as: :decoupled_references_create_name
 
-        get '/email/:id' => 'decoupled_references/email#new', as: :decoupled_references_new_email
-        post '/email/:id' => 'decoupled_references/email#create', as: :decoupled_references_create_email
+        get '/email-address/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_new_email_address
+        post '/email-address/:id' => 'decoupled_references/email_address#create', as: :decoupled_references_create_email_address
+
+        get '/description/:id' => 'decoupled_references/description#new', as: :decoupled_references_new_description
       end
 
       scope '/new-referee' do
