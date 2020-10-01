@@ -3,7 +3,9 @@ module CandidateInterface
     class ReviewController < BaseController
       before_action :set_reference
 
-      def unsubmitted; end
+      def unsubmitted
+        @submit_reference_form = Reference::RefereeSubmitForm.new
+      end
     end
   end
 end
