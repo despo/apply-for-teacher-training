@@ -702,6 +702,9 @@ Rails.application.routes.draw do
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
     get '/ucas-matches' => 'ucas_matches#index', as: :ucas_matches
     get '/ucas-matches/:id' => 'ucas_matches#show', as: :ucas_match
+    post '/ucas-matches/:id/record-initial-emails-sent' => 'ucas_matches#record_initial_emails_sent', as: :record_initial_emails_sent
+    post '/ucas-matches/:id/record-reminder-emails-sent' => 'ucas_matches#record_reminder_emails_sent', as: :record_reminder_emails_sent
+    post '/ucas-matches/:id/record-withdrawal-from-ucas-requested' => 'ucas_matches#record_withdrawal_from_ucas_requested', as: :record_withdrawal_from_ucas_requested
     post '/ucas-matches/:id/process-match' => 'ucas_matches#process_match', as: :process_match
 
     scope path: '/applications/:application_form_id' do

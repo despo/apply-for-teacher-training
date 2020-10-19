@@ -5,31 +5,8 @@
   <%= render TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :default) %> Last updated <%= @match.updated_at.to_s(:govuk_date_and_time) %>
 </p>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <div class="govuk-inset-text govuk-!-margin-top-0">
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
-        Action needed: send initial email
-      </h2>
-      <p class="govuk-body">
-        We need to contact the candidate and the provider.
-        Use an appropriate templates from <%= govuk_link_to 'this document', "https://docs.google.com/document/d/1s5ql4jNUUr3QDPUQYWImkZR6o8upvutrjOEuoZ0qqTE" %>.
-      </p>
-      <p class="govuk-body">
-        Please refer to <%= govuk_link_to 'Dual-running user support manual', "https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4" %> for more information about the current process.
-      </p>
+<%= render SupportInterface::UCASMatchActionComponent.new(@match) %>
 
-    </div>
-  </div>
-</div>
-
-<p class="govuk-body">
-  <% unless @match.processed? %>
-    <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
-      <%= f.submit 'Mark as processed', class: 'govuk-button' %>
-    <% end %>
-  <% end %>
-</p>
 <h2 class='govuk-heading-l'>UCAS match</h2>
 <% application = @match.candidate.application_forms.first %>
 <% candidate_details_row = { "Candidate name" => "#{application.first_name} #{application.last_name}",  "Candidate email" => @match.candidate.email_address.to_s } %>
