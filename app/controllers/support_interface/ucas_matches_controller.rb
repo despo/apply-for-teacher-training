@@ -14,5 +14,13 @@ module SupportInterface
       flash[:success] = 'Match marked as processed'
       redirect_to support_interface_ucas_match_path(match)
     end
+
+    def mark_initial_email_sent
+      match = UCASMatch.find(params[:id])
+      
+      match.update!(initial_email_sent_at: Time.zone.now)
+      flash[:success] = 'Match marked as processed'
+      redirect_to support_interface_ucas_match_path(match)
+    end
   end
 end
