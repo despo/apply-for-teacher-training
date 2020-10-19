@@ -659,8 +659,10 @@ Rails.application.routes.draw do
     scope path: '/ucas-matches/:id' do
       get '/' => 'ucas_matches#show', as: :ucas_match
       get '/audit' => 'ucas_matches#audit', as: :ucas_match_audit
-      post '/initial-emails' => 'ucas_matches#record_initial_emails_sent', as: :record_initial_emails_sent
-      post '/process-match' => 'ucas_matches#process_match', as: :process_match
+      post '/ucas-matches/:id/record-initial-emails-sent' => 'ucas_matches#record_initial_emails_sent', as: :record_initial_emails_sent
+      post '/ucas-matches/:id/record-reminder-emails-sent' => 'ucas_matches#record_reminder_emails_sent', as: :record_reminder_emails_sent
+      post '/ucas-matches/:id/record-withdrawal-from-ucas-requested' => 'ucas_matches#record_withdrawal_from_ucas_requested', as: :record_withdrawal_from_ucas_requested
+      post '/ucas-matches/:id/process-match' => 'ucas_matches#process_match', as: :process_match
     end
 
     get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice

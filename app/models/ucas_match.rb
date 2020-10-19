@@ -4,6 +4,9 @@ class UCASMatch < ApplicationRecord
   belongs_to :candidate
 
   enum matching_state: {
+    initial_emails_sent: 'initial_emails_sent',
+    reminder_emails_sent: 'reminder_emails_sent',
+    ucas_withdrawal_requested: 'ucas_withdrawal_requested',
     matching_data_updated: 'matching_data_updated',
     new_match: 'new_match',
     processed: 'processed',
@@ -21,6 +24,11 @@ class UCASMatch < ApplicationRecord
     application_for_the_same_course_in_progress_on_both_services? ||
       application_accepted_on_ucas_and_in_progress_on_apply? ||
       application_accepted_on_apply_and_in_progress_on_ucas?
+    dual_application_or_dual_acceptance?
+  end
+
+  def dual_application_or_dual_acceptance?
+    application_for_the_same_course_in_progress_on_both_services? || application_accepted_on_ucas_and_in_progress_on_apply? || application_accepted_on_apply_and_in_progress_on_ucas?
   end
 
   def invalid_matching_data?

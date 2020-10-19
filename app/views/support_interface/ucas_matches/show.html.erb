@@ -43,23 +43,7 @@
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <div class="govuk-inset-text govuk-!-margin-top-0">
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
-        Action needed: send initial email
-      </h2>
-      <p class="govuk-body">
-        We need to contact the candidate and the provider.
-        Use an appropriate templates from <%= govuk_link_to 'this document', "https://docs.google.com/document/d/1s5ql4jNUUr3QDPUQYWImkZR6o8upvutrjOEuoZ0qqTE" %>.
-      </p>
-      <p class="govuk-body">
-        Please refer to <%= govuk_link_to 'Dual-running user support manual', "https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4" %> for more information about the current process.
-      </p>
-
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::UCASMatchActionComponent.new(@match) %>
 
 <p class="govuk-body">
   <% if @match.invalid_matching_data? %>
