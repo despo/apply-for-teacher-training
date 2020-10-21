@@ -226,17 +226,32 @@ RSpec.describe ApplicationReference, type: :model do
       expect(reference.can_be_destroyed?).to eq true
     end
 
-    it 'is false when state is feedback_requested state aand the application form has not been submitted' do
+    it 'is true when state is cancelled and the application form has not been submitted' do
+      reference = build(:reference, :cancelled, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq true
+    end
+
+    it 'is true when state is email_bounced and the application form has not been submitted' do
+      reference = build(:reference, :email_bounced, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq true
+    end
+
+    it 'is true when state is feedback_refused and the application form has not been submitted' do
+      reference = build(:reference, :feedback_refused, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq true
+    end
+
+    it 'is false when state is cancelled_at_end_of_cycle and the application form has not been submitted' do
+      reference = build(:reference, :cancelled_at_end_of_cycle, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq false
+    end
+
+    it 'is false when state is feedback_requested and the application form has not been submitted' do
       reference = build(:reference, :feedback_requested, application_form: unsubmitted_application_form)
       expect(reference.can_be_destroyed?).to eq false
     end
 
-    it 'is false when state is not_requested_yet and the application form has been submitted' do
-      reference = build(:reference, :not_requested_yet, application_form: submitted_application_form)
-      expect(reference.can_be_destroyed?).to eq false
-    end
-
-    it 'is false when state is feedback_provided and the application form has been submitted' do
+    it 'is false when in a state that has been can be destroyed, but the the application form has been submitted' do
       reference = build(:reference, :feedback_provided, application_form: submitted_application_form)
       expect(reference.can_be_destroyed?).to eq false
     end

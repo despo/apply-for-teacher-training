@@ -111,7 +111,7 @@ class ApplicationReference < ApplicationRecord
   end
 
   def can_be_destroyed?
-    (not_requested_yet? || feedback_provided?) && !application_form.submitted?
+    (not_requested_yet? || feedback_provided? || cancelled? || feedback_refused? || email_bounced?) && !application_form.submitted?
   end
 
   def can_send_reminder?
