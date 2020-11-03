@@ -43,9 +43,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache nodejs yarn tzdata libpq libxml2 libxslt graphviz && \
-    echo "Europe/London" > /etc/timezone && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime
+    apk add --update --no-cache nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
 COPY --from=install-gems-node-modules /app /app
 COPY --from=install-gems-node-modules /usr/local/bundle/ /usr/local/bundle/
@@ -63,7 +61,7 @@ RUN yarn jest && \
     rm -rf tmp/* log/* node_modules /usr/local/share/.cache /tmp/*
 
 # Stage 4: production, copy application code and compiled assets to base ruby image.
-# Depends on assets-precompile stage which can be cached from a pre-built image 
+# Depends on assets-precompile stage which can be cached from a pre-built image
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
@@ -78,9 +76,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     SHA=${VERSION}
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz && \
-    echo "Europe/London" > /etc/timezone && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime
+    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz
 
 COPY --from=assets-precompile /app /app
 COPY --from=assets-precompile /usr/local/bundle/ /usr/local/bundle/
