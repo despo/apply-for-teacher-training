@@ -8,6 +8,12 @@ module CandidateInterface
     def edit
       @application_qualification = details_form
       @qualification_type = details_form.qualification.qualification_type
+
+      if FeatureFlag.active?('multiple_english_gcses') && @current_application.submitted_at.nil?
+        render 'candidate_interface/gcse/english/grade/multiple_gcse_edit' and return
+      else
+        render :edit
+      end
     end
 
     def update
