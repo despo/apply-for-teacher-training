@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_04_151036) do
+ActiveRecord::Schema.define(version: 2020_11_05_145325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,6 +63,20 @@ ActiveRecord::Schema.define(version: 2020_11_04_151036) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "working_pattern"
     t.index ["application_form_id"], name: "index_application_experiences_on_application_form_id"
+  end
+
+  create_table "application_feedback", force: :cascade do |t|
+    t.string "section"
+    t.string "path"
+    t.string "page_title"
+    t.boolean "issues"
+    t.boolean "understands_section"
+    t.boolean "need_more_information"
+    t.boolean "answer_does_not_fit_format"
+    t.string "other_feedback"
+    t.boolean "consent_to_be_contacted"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "application_forms", force: :cascade do |t|
