@@ -2,6 +2,7 @@
   @include govuk-font(16);
   margin: 0;
   min-width: 80px;
+  background-color: #1d70b8;
 
   @include govuk-media-query($from: mobile) {
     white-space: nowrap;
@@ -65,4 +66,8 @@
       display: none;
     }
   }
+}
+
+.govuk-main-wrapper {
+  padding-bottom: 0;
 }
