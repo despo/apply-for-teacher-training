@@ -121,15 +121,21 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       )
     end
 
-    it 'renders component with correct values for a predicted grade' do
+    it 'renders component with correct values for the completion status row' do
       allow(application_form).to receive(:application_qualifications).and_return(
         ActiveRecordRelationStub.new(ApplicationQualification, [degree1, degree2], scopes: [:degrees]),
       )
 
       result = render_inline(described_class.new(application_form: application_form))
+      completed_degree_summary = result.css('.app-summary-card').first
+      predicted_degree_summary = result.css('.app-summary-card').last
 
-      expect(result.css('.app-summary-card__title').text).to include('BAEcon Meow')
-      expect(result.css('.govuk-summary-list__value').text).to include('First (Predicted)')
+      expect(extract_summary_row(completed_degree_summary, 'Have you completed this degree?').text).to include('Yes')
+      expect(extract_summary_row(predicted_degree_summary, 'Have you completed this degree?').text).to include('No')
+    end
+
+    def extract_summary_row(element, title)
+      element.css('.govuk-summary-list__row').find { |e| e.text.include?(title) }
     end
 
     it 'renders component with correct values for an other grade' do
