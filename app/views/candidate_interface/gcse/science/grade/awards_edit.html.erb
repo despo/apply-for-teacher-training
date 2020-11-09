@@ -1,0 +1,37 @@
+<% content_for :title, title_with_error_prefix(t('gcse_edit_grade.page_title', subject: @subject), @gcse_grade_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @gcse_grade_form, url: candidate_interface_gcse_science_edit_grade_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl"><%= t('gcse_edit_grade.page_title', subject: @subject) %></h1>
+
+      <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <%= f.govuk_radio_buttons_fieldset :gcse_science, legend: { text: "Select the GCSEs you did and include your grade"} do %>
+            <%= f.govuk_radio_button(:gcse_science, 'science single award', label: { text: "Single award" }, hint: { text: "You have one science grade" }, link_errors: true ) do %>
+              <%= f.govuk_text_field :single_award_grade, label: { text: "Grade"}, hint: { text: "For example, 'C' or '4'" }, width: 'two-thirds' %>
+              <%= tag.div(id: 'gcse-single-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.single_award_grades }) %>
+            <% end %>
+            <%= f.govuk_radio_button(:gcse_science, 'science double award', label: { text: "Double award" }, hint: { text: "You have a combined science grade" } ) do %>
+              <%= f.govuk_text_field :double_award_grade, label: { text: "Grade"}, hint: { text: "For example, 'CD' or '4-3'" }, width: 'two-thirds' %>
+              <%= tag.div(id: 'gcse-double-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.double_award_grades }) %>
+            <% end %>
+            <%= f.govuk_radio_button(:gcse_science, 'science triple award', label: { text: "Triple award" }, hint: { text: "You have a grade for each subject" } ) do %>
+              <%= f.govuk_text_field :biology_grade, label: { text: "Biology grade" }, hint: { text: "For example 'C' or '4'" }, width: 'two-thirds' %>
+              <%= tag.div(id: 'gcse-biology-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.single_award_grades }) %>
+              <%= f.govuk_text_field :chemistry_grade, label: { text: "Chemistry grade" }, hint: { text: "For example 'C' or '4'" }, width: 'two-thirds' %>
+              <%= tag.div(id: 'gcse-chemistry-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.single_award_grades }) %>
+              <%= f.govuk_text_field :physics_grade, label: { text: "Physics grade" }, hint: { text: "For example 'C' or '4'" }, width: 'two-thirds' %>
+              <%= tag.div(id: 'gcse-physics-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.single_award_grades }) %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <%= f.govuk_submit t('application_form.gcse.complete_form_button') %>
+    <% end %>
+  </div>
+</div>
