@@ -58,10 +58,16 @@ module CandidateInterface
     def grade_row
       {
         key: 'Grade',
-        value: application_qualification.grade || t('gcse_summary.not_specified'),
+        value: formatted_grades || application_qualification.grade || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: grade_edit_path,
       }
+    end
+
+    def formatted_grades
+      return if application_qualification.grades.nil?
+      grades = JSON.parse (application_qualification.grades)
+      grades.map { |k,v,| "#{v} (#{k.humanize.titleize})"}
     end
 
     def missing_qualification_row
