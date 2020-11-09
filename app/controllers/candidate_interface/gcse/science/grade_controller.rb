@@ -67,7 +67,7 @@ module CandidateInterface
     end
 
     def set_subject
-      @subject = 'science'
+      @subject = ApplicationQualification::SCIENCE
     end
 
     def science_details_params
@@ -93,7 +93,7 @@ module CandidateInterface
       elsif triple_award?
         ApplicationQualification::SCIENCE_TRIPLE_AWARD
       else
-        'science'
+        ApplicationQualification::SCIENCE
       end
     end
 

@@ -14,7 +14,7 @@
           <%= f.govuk_radio_buttons_fieldset :gcse_science, legend: { text: "Select the GCSEs you did and include your grade"} do %>
             <%= f.govuk_radio_button(:gcse_science, 'science single award', label: { text: "Single award" }, hint: { text: "You have one science grade" }, link_errors: true ) do %>
               <%= f.govuk_text_field :single_award_grade, label: { text: "Grade"}, hint: { text: "For example, 'C' or '4'" }, width: 'two-thirds' %>
-              <%= tag.div(id: 'gcse-single-grade-autocomplete', data: { source: CandidateInterface::ScienceGcseGradeForm.single_award_grades }) %>
+              <%= tag.div(id: 'gcse-single-grade-autocomplete', data: { source: SINGLE_GCSE_GRADES }) %>
             <% end %>
             <%= f.govuk_radio_button(:gcse_science, 'science double award', label: { text: "Double award" }, hint: { text: "You have a combined science grade" } ) do %>
               <%= f.govuk_text_field :double_award_grade, label: { text: "Grade"}, hint: { text: "For example, 'CD' or '4-3'" }, width: 'two-thirds' %>

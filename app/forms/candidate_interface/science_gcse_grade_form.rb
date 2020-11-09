@@ -73,7 +73,7 @@ module CandidateInterface
           params[:biology_grade] = grades['biology']
           params[:chemistry_grade] = grades['chemistry']
           params[:physics_grade] = grades['physics']
-        when 'science'
+        when ApplicationQualification::SCIENCE
           params[:grade] = qualification.grade
         end
 
