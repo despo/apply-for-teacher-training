@@ -190,53 +190,51 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
     end
 
     describe '.build_from_qualification' do
-      context "international gcses" do
-        context 'with the international_gcses feature flag off' do
-          let(:data) do
-            {
-              grade: 'other',
-            }
-          end
-
-          it 'creates an object based on the provided ApplicationForm' do
-            qualification = ApplicationQualification.new(data)
-            gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
-
-            expect(gcse_details_form).to have_attributes(data)
-          end
+      context 'with the international_gcses feature flag off' do
+        let(:data) do
+          {
+            grade: 'other',
+          }
         end
 
-        context 'with the international_gcses feature flag on, the qualification_type is non_uk and grade is not_applicable' do
-          it 'sets grade to not_applicable and other grade to nil' do
-            FeatureFlag.activate('international_gcses')
-            qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
-            gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        it 'creates an object based on the provided ApplicationForm' do
+          qualification = ApplicationQualification.new(data)
+          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
-            expect(gcse_details_form.grade).to eq 'not_applicable'
-            expect(gcse_details_form.other_grade).to eq nil
-          end
+          expect(gcse_details_form).to have_attributes(data)
         end
+      end
 
-        context 'with the international_gcses feature flag on and grade is unknown' do
-          it 'sets grade to not_applicable and other grade to nil' do
-            FeatureFlag.activate('international_gcses')
-            qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'unknown')
-            gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+      context 'with the international_gcses feature flag on, the qualification_type is non_uk and grade is not_applicable' do
+        it 'sets grade to not_applicable and other grade to nil' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
+          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
-            expect(gcse_details_form.grade).to eq 'unknown'
-            expect(gcse_details_form.other_grade).to eq nil
-          end
+          expect(gcse_details_form.grade).to eq 'not_applicable'
+          expect(gcse_details_form.other_grade).to eq nil
         end
+      end
 
-        context 'with the international_gcses feature flag on and grade is another value' do
-          it 'sets grade to other and other grade to grades value' do
-            FeatureFlag.activate('international_gcses')
-            qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'D')
-            gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+      context 'with the international_gcses feature flag on and grade is unknown' do
+        it 'sets grade to not_applicable and other grade to nil' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'unknown')
+          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
-            expect(gcse_details_form.grade).to eq 'other'
-            expect(gcse_details_form.other_grade).to eq 'D'
-          end
+          expect(gcse_details_form.grade).to eq 'unknown'
+          expect(gcse_details_form.other_grade).to eq nil
+        end
+      end
+
+      context 'with the international_gcses feature flag on and grade is another value' do
+        it 'sets grade to other and other grade to grades value' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'D')
+          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+
+          expect(gcse_details_form.grade).to eq 'other'
+          expect(gcse_details_form.other_grade).to eq 'D'
         end
       end
     end

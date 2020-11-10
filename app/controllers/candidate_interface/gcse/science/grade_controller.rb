@@ -85,18 +85,6 @@ module CandidateInterface
       end
     end
 
-    def assign_subject
-      if single_award?
-        ApplicationQualification::SCIENCE_SINGLE_AWARD
-      elsif double_award?
-        ApplicationQualification::SCIENCE_DOUBLE_AWARD
-      elsif triple_award?
-        ApplicationQualification::SCIENCE_TRIPLE_AWARD
-      else
-        ApplicationQualification::SCIENCE
-      end
-    end
-
     def gcse_science_qualification
       @gcse_science_qualification ||= current_application.qualification_in_subject(:gcse, @subject)
     end
