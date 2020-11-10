@@ -20,10 +20,8 @@ module CandidateInterface
     validates :chemistry_grade, presence: true, on: :grades, if: :triple_award?
     validates :physics_grade, presence: true, on: :grades, if: :triple_award?
     validates :other_grade, presence: true, if: :grade_is_other?
-    validates :award_year, presence: true, on: :award_year
     validates :grade, length: { maximum: 6 }, unless: :international_gcses_flag_active?, on: :grade
     validate :grade_length, on: :grade
-    validate :award_year_is_a_valid_date, if: :award_year, on: :award_year
     validate :validate_grade_format, unless: :new_record?, on: :grade
     validate :triple_award_grades_format, if: :triple_award?, on: :grade
 
@@ -43,7 +41,6 @@ module CandidateInterface
           new(
             grade: qualification.set_grade,
             other_grade: qualification.set_other_grade,
-            award_year: qualification.award_year,
             qualification: qualification,
           )
         else
@@ -57,7 +54,6 @@ module CandidateInterface
         params = {
           gcse_science: qualification.subject,
           subject: qualification.subject,
-          award_year: qualification.award_year,
           qualification: qualification,
         }
 
@@ -73,7 +69,7 @@ module CandidateInterface
           params[:biology_grade] = grades['biology']
           params[:chemistry_grade] = grades['chemistry']
           params[:physics_grade] = grades['physics']
-        when ApplicationQualification::SCIENCE
+        else
           params[:grade] = qualification.grade
         end
 
@@ -96,33 +92,7 @@ module CandidateInterface
       qualification.update(grade: set_grade, grades: triple_award_grades, subject: subject)
     end
 
-    def save_year
-      if valid?(:award_year)
-        qualification.update(grade: set_grade, award_year: award_year)
-        return true
-      end
-
-      false
-    end
-
   private
-
-    def award_year_is_not_in_the_future
-      date_limit = Time.zone.now.year.to_i + 1
-      errors.add(:award_year, :in_future, date: date_limit) if award_year.to_i >= date_limit
-    end
-
-    def award_year_is_invalid
-      errors.add(:award_year, :invalid)
-    end
-
-    def award_year_is_a_valid_date
-      if valid_year?(award_year)
-        award_year_is_not_in_the_future
-      else
-        award_year_is_invalid
-      end
-    end
 
     def validate_grade_format
       return if qualification.qualification_type.nil? ||
